@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avaliação Diagnóstica - Windows</title>
+
+  <!-- Fonte moderna (leve) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background decor -->
+  <div class="bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="grid"></div>
+  </div>
+
+  <div class="wrap">
+    <!-- Top brand -->
+    <nav class="brandbar">
+      <div class="brand">
+        <div class="brand__logo" aria-hidden="true">🪟</div>
+        <div class="brand__text">
+          <div class="brand__title">Turma de Informática</div>
+          <div class="brand__sub">Avaliação Diagnóstica • Windows</div>
+        </div>
+      </div>
+
+      <div class="pill">
+        <span class="dot"></span>
+        <span>Online</span>
+      </div>
+    </nav>
+
+    <header class="card hero">
+      <div class="hero__left">
+        <h1>Avaliação Diagnóstica — Windows</h1>
+        <p class="muted lead">
+          Você tem <b>60 minutos</b> para responder. Esta avaliação tem <b>1 tentativa</b> por dispositivo/navegador.
+        </p>
+
+        <div class="meta">
+          <div class="meta__item">
+            <span class="meta__icon">⏱️</span>
+            <span><b>Duração:</b> 60 min</span>
+          </div>
+          <div class="meta__item">
+            <span class="meta__icon">🧠</span>
+            <span><b>Objetivo:</b> mapear seu nível</span>
+          </div>
+          <div class="meta__item">
+            <span class="meta__icon">✅</span>
+            <span><b>Envio:</b> automático</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="panel">
+          <div class="panel__title">Regras rápidas</div>
+          <ul class="rules">
+            <li>Não feche a aba após iniciar.</li>
+            <li>O cronômetro não pausa.</li>
+            <li>Responda com sinceridade (é diagnóstico).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="lockBox" class="lock hide">
+        <div class="lock__icon">🔒</div>
+        <div>
+          <h2>Tentativa já utilizada</h2>
+          <p class="muted">
+            Este dispositivo já enviou uma resposta. Se você acredita que foi um erro, fale com o professor.
+          </p>
+        </div>
+      </div>
+
+      <div id="loginBox" class="login">
+        <label class="label" for="studentName">Digite seu nome completo</label>
+        <div class="login__row">
+          <input id="studentName" type="text" placeholder="Ex: João Pedro Silva" autocomplete="name" />
+          <button id="startBtn" class="btn btn--primary">
+            <span>Começar</span>
+            <span class="btn__icon">→</span>
+          </button>
+        </div>
+        <p class="tiny muted">
+          Ao começar, o cronômetro inicia e não pode ser pausado.
+        </p>
+      </div>
+
+      <div id="topBar" class="topbar hide">
+        <div class="topbar__left">
+          <div class="chip">
+            <span class="chip__icon">👤</span>
+            <span><b>Aluno:</b> <span id="who"></span></span>
+          </div>
+          <div class="chip chip--soft">
+            <span class="chip__icon">📌</span>
+            <span>Responda com atenção</span>
+          </div>
+        </div>
+
+        <div class="timer">
+          <span class="timer__icon">⏳</span>
+          <span class="timer__text" id="time">60:00</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="formBox" class="card hide">
+      <form id="quizForm">
+        <div class="sectionHeader">
+          <h2>Parte 1 — Múltipla escolha</h2>
+          <p class="muted">Marque apenas <b>uma</b> alternativa em cada questão.</p>
+        </div>
+
+        <!-- Q1 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">1</div>
+            <div class="q__title">O que é um Sistema Operacional (SO)?</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q1" value="A" required><span>A)</span> Um dispositivo físico do computador</label>
+            <label class="opt__item"><input type="radio" name="q1" value="B"><span>B)</span> O principal software que organiza e controla o computador</label>
+            <label class="opt__item"><input type="radio" name="q1" value="C"><span>C)</span> Um programa para acessar a internet</label>
+            <label class="opt__item"><input type="radio" name="q1" value="D"><span>D)</span> Um tipo de memória do computador</label>
+          </div>
+        </section>
+
+        <!-- Q2 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">2</div>
+            <div class="q__title">O Windows é:</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q2" value="A" required><span>A)</span> Um antivírus</label>
+            <label class="opt__item"><input type="radio" name="q2" value="B"><span>B)</span> Um navegador</label>
+            <label class="opt__item"><input type="radio" name="q2" value="C"><span>C)</span> Um sistema operacional</label>
+            <label class="opt__item"><input type="radio" name="q2" value="D"><span>D)</span> Um editor de texto</label>
+          </div>
+        </section>
+
+        <!-- Q3 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">3</div>
+            <div class="q__title">Qual componente armazena dados permanentemente (arquivos e programas)?</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q3" value="A" required><span>A)</span> Memória RAM</label>
+            <label class="opt__item"><input type="radio" name="q3" value="B"><span>B)</span> HD/SSD</label>
+            <label class="opt__item"><input type="radio" name="q3" value="C"><span>C)</span> Processador</label>
+            <label class="opt__item"><input type="radio" name="q3" value="D"><span>D)</span> Placa de vídeo</label>
+          </div>
+        </section>
+
+        <!-- Q4 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">4</div>
+            <div class="q__title">Qual componente é conhecido como “o cérebro do computador”?</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q4" value="A" required><span>A)</span> Placa-mãe</label>
+            <label class="opt__item"><input type="radio" name="q4" value="B"><span>B)</span> Processador</label>
+            <label class="opt__item"><input type="radio" name="q4" value="C"><span>C)</span> Fonte de alimentação</label>
+            <label class="opt__item"><input type="radio" name="q4" value="D"><span>D)</span> Gabinete</label>
+          </div>
+        </section>
+
+        <!-- Q5 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">5</div>
+            <div class="q__title">Ao minimizar uma janela, o que acontece?</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q5" value="A" required><span>A)</span> O programa é encerrado</label>
+            <label class="opt__item"><input type="radio" name="q5" value="B"><span>B)</span> A janela some temporariamente e fica na barra de tarefas</label>
+            <label class="opt__item"><input type="radio" name="q5" value="C"><span>C)</span> A janela ocupa a tela toda</label>
+            <label class="opt__item"><input type="radio" name="q5" value="D"><span>D)</span> O computador reinicia</label>
+          </div>
+        </section>
+
+        <!-- Q6 -->
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">6</div>
+            <div class="q__title">Qual ação normalmente abre um menu de opções rápidas (contexto) no Windows?</div>
+          </div>
+          <div class="opt">
+            <label class="opt__item"><input type="radio" name="q6" value="A" required><span>A)</span> Clique esquerdo</label>
+            <label class="opt__item"><input type="radio" name="q6" value="B"><span>B)</span> Duplo clique esquerdo</label>
+            <label class="opt__item"><input type="radio" name="q6" value="C"><span>C)</span> Clique direito</label>
+            <label class="opt__item"><input type="radio" name="q6" value="D"><span>D)</span> Scroll (rodinha)</label>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="sectionHeader">
+          <h2>Parte 2 — Discursivas</h2>
+          <p class="muted">Responda com clareza. Não precisa escrever demais — precisa escrever bem.</p>
+        </div>
+
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">7</div>
+            <div class="q__title">Explique com suas palavras por que “sem sistema operacional o computador vira um caos”.</div>
+          </div>
+          <textarea name="q7" rows="4" required placeholder="3 a 6 linhas..."></textarea>
+        </section>
+
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">8</div>
+            <div class="q__title">Descreva a diferença entre Área de Trabalho, Menu Iniciar e Barra de tarefas (1 exemplo de uso de cada).</div>
+          </div>
+          <textarea name="q8" rows="4" required></textarea>
+        </section>
+
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">9</div>
+            <div class="q__title">Cite 3 funções do teclado além de “digitar” e dê 1 exemplo de atalho que você conhece.</div>
+          </div>
+          <textarea name="q9" rows="4" required></textarea>
+        </section>
+
+        <section class="q">
+          <div class="q__head">
+            <div class="q__num">10</div>
+            <div class="q__title">Explique a diferença entre minimizar e fechar e como reabrir uma janela minimizada.</div>
+          </div>
+          <textarea name="q10" rows="4" required></textarea>
+        </section>
+
+        <div class="actions">
+          <button type="submit" id="sendBtn" class="btn btn--primary btn--big">
+            <span>Enviar respostas</span>
+            <span class="btn__icon">✅</span>
+          </button>
+          <p class="tiny muted">
+            Ao enviar, a tentativa é bloqueada neste dispositivo.
+          </p>
+        </div>
+
+        <div id="status" class="status"></div>
+      </form>
+    </main>
+
+    <footer class="footer">
+      <span class="muted">© Avaliação diagnóstica — Turma de Informática</span>
+      <span class="muted">•</span>
+      <span class="muted">Feito para GitHub Pages</span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
