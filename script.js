@@ -1,10 +1,14 @@
 // ================== CONFIG ==================
 const TIME_LIMIT_SECONDS = 60 * 60; // 60 minutos
-const PAGE_ID = location.pathname.replaceAll("/", "_"); // identifica a página
+
+// Identifica a página (para cada atividade ter sua própria "tentativa")
+const PAGE_ID = location.pathname.replaceAll("/", "_");
+
 const ATTEMPT_KEY = `diag_windows_attempt_used_v1_${PAGE_ID}`;
 const START_KEY   = `diag_windows_start_ts_v1_${PAGE_ID}`;
+const STUDENT_KEY = `diag_windows_student_v1_${PAGE_ID}`;
 
-// Cole aqui a URL do seu Google Apps Script Web App (passo abaixo)
+// Cole aqui a URL do seu Google Apps Script Web App
 const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec";
 
 // Gabarito (múltipla escolha)
@@ -43,11 +47,12 @@ function isLocked(){
 }
 
 function setStatus(msg){
-  $("status").textContent = msg;
+  const el = $("status");
+  if (el) el.textContent = msg;
 }
 
 // ================== UI FLOW ==================
-const lockBox = $("lockBox");
+const lockBox  = $("lockBox");
 const loginBox = $("loginBox");
 const formBox  = $("formBox");
 const topBar   = $("topBar");
@@ -60,35 +65,43 @@ let studentName = "";
 
 // Se já usou tentativa: trava tudo
 if(isLocked()){
-  lockBox.classList.remove("hide");
-  loginBox.classList.add("hide");
+  if (lockBox)  lockBox.classList.remove("hide");
+  if (loginBox) loginBox.classList.add("hide");
 } else {
   // se já começou antes (recarregou a página), volta direto pro teste
   const existingStart = localStorage.getItem(START_KEY);
-  const existingName  = localStorage.getItem("diag_windows_student_v1");
+  const existingName  = localStorage.getItem(STUDENT_KEY);
   if(existingStart && existingName){
     studentName = existingName;
     startExam();
   }
 }
 
-startBtn.addEventListener("click", () => {
-  const name = $("studentName").value.trim();
-  if(name.length < 5){
-    alert("Digite seu nome completo (mínimo 5 caracteres).");
-    return;
-  }
-  studentName = name;
-  const STUDENT_KEY = `diag_windows_student_v1_${PAGE_ID}`;
-  localStorage.setItem(START_KEY, String(Date.now()));
-  startExam();
-});
+if (startBtn) {
+  startBtn.addEventListener("click", () => {
+    const nameInput = $("studentName");
+    const name = (nameInput ? nameInput.value : "").trim();
+
+    if(name.length < 5){
+      alert("Digite seu nome completo (mínimo 5 caracteres).");
+      return;
+    }
+
+    studentName = name;
+
+    // salva nome e início específicos desta página/atividade
+    localStorage.setItem(STUDENT_KEY, studentName);
+    localStorage.setItem(START_KEY, String(Date.now()));
+
+    startExam();
+  });
+}
 
 function startExam(){
-  loginBox.classList.add("hide");
-  formBox.classList.remove("hide");
-  topBar.classList.remove("hide");
-  whoSpan.textContent = studentName;
+  if (loginBox) loginBox.classList.add("hide");
+  if (formBox)  formBox.classList.remove("hide");
+  if (topBar)   topBar.classList.remove("hide");
+  if (whoSpan)  whoSpan.textContent = studentName;
 
   // iniciar timer
   tick();
@@ -97,82 +110,93 @@ function startExam(){
 
 function tick(){
   const remain = getRemainingSeconds();
-  timeSpan.textContent = formatTime(remain);
+  if (timeSpan) timeSpan.textContent = formatTime(remain);
 
   if(remain <= 0){
     clearInterval(timerInterval);
     setStatus("⛔ Tempo esgotado. O envio foi bloqueado.");
-    $("sendBtn").disabled = true;
+    const sendBtn = $("sendBtn");
+    if (sendBtn) sendBtn.disabled = true;
     // trava tentativa ao estourar o tempo
     lockAttempt();
   }
 }
 
 // ================== SUBMIT ==================
-$("quizForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+const quizForm = $("quizForm");
+if (quizForm) {
+  quizForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  // bloqueia envio se tempo acabou
-  if(getRemainingSeconds() <= 0){
-    setStatus("⛔ Tempo esgotado. Não é possível enviar.");
-    $("sendBtn").disabled = true;
-    lockAttempt();
-    return;
-  }
+    // bloqueia envio se tempo acabou
+    if(getRemainingSeconds() <= 0){
+      setStatus("⛔ Tempo esgotado. Não é possível enviar.");
+      const sendBtn = $("sendBtn");
+      if (sendBtn) sendBtn.disabled = true;
+      lockAttempt();
+      return;
+    }
 
-  if(SHEETS_WEBAPP_URL.includes("COLE_AQUI")){
-    alert("Você ainda não colou a URL do Web App do Google Sheets no script.js");
-    return;
-  }
+    if(SHEETS_WEBAPP_URL.includes("COLE_AQUI")){
+      alert("Você ainda não colou a URL do Web App do Google Sheets no script.js");
+      return;
+    }
 
-  $("sendBtn").disabled = true;
-  setStatus("Enviando...");
+    const sendBtn = $("sendBtn");
+    if (sendBtn) sendBtn.disabled = true;
+    setStatus("Enviando...");
 
-  const fd = new FormData(e.target);
-  const payload = {
-    studentName,
-    startedAt: Number(localStorage.getItem(START_KEY)),
-    submittedAt: Date.now(),
-    remainingSeconds: getRemainingSeconds(),
-    answers: {},
-    scoreMC: 0,
-    levelMC: ""
-  };
+    const fd = new FormData(e.target);
+    const payload = {
+      studentName,
+      startedAt: Number(localStorage.getItem(START_KEY)),
+      submittedAt: Date.now(),
+      remainingSeconds: getRemainingSeconds(),
+      answers: {},
+      scoreMC: 0,
+      levelMC: ""
+    };
 
-  // coletar respostas
-  for(const [k,v] of fd.entries()){
-    payload.answers[k] = v;
-  }
+    // coletar respostas
+    for(const [k,v] of fd.entries()){
+      payload.answers[k] = v;
+    }
 
-  // corrigir MC
-  let score = 0;
-  Object.keys(ANSWERS).forEach(q => {
-    if(payload.answers[q] === ANSWERS[q]) score++;
-  });
-  payload.scoreMC = score;
-  payload.levelMC = levelFromScore(score);
-
-  // enviar para Sheets
-  try{
-    const res = await fetch(SHEETS_WEBAPP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
+    // corrigir MC
+    let score = 0;
+    Object.keys(ANSWERS).forEach(q => {
+      if(payload.answers[q] === ANSWERS[q]) score++;
     });
+    payload.scoreMC = score;
+    payload.levelMC = levelFromScore(score);
 
-    const text = await res.text();
-    if(!res.ok) throw new Error(text);
+    // enviar para Sheets
+    try{
+      const res = await fetch(SHEETS_WEBAPP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
 
-    // trava tentativa
-    lockAttempt();
+      const text = await res.text();
 
-    setStatus(`✅ Enviado com sucesso! Pontuação (MC): ${score}/6 • Nível: ${payload.levelMC}`);
-  } catch(err){
-    console.error(err);
-    $("sendBtn").disabled = false;
-    setStatus("❌ Erro ao enviar. Verifique a URL do Web App e se ele está publicado como 'Qualquer pessoa'.");
-  }
-});
+      // Se o Apps Script devolver "ERROR: ..." com status 200, isso aqui pega.
+      if(!res.ok || !String(text).trim().toUpperCase().startsWith("OK")){
+        throw new Error(text);
+      }
+
+      // trava tentativa
+      lockAttempt();
+
+      setStatus(`✅ Enviado com sucesso! Pontuação (MC): ${score}/6 • Nível: ${payload.levelMC}`);
+    } catch(err){
+      console.error(err);
+      if (sendBtn) sendBtn.disabled = false;
+      setStatus("❌ Erro ao enviar. Verifique a URL do Web App e se ele está publicado como 'Qualquer pessoa'.");
+    }
+  });
+}
+
 // ================== MODO PROFESSOR (OPÇÃO 2) ==================
 // Troque a senha abaixo por uma sua (não use "1234").
 const TEACHER_PASSWORD = "aluno Mickael";
@@ -187,10 +211,10 @@ if (teacherBtn) {
       return;
     }
 
-    // Limpa as chaves que travam a tentativa
+    // Limpa as chaves que travam a tentativa (somente desta página/atividade)
     localStorage.removeItem(ATTEMPT_KEY);
     localStorage.removeItem(START_KEY);
-    localStorage.removeItem("diag_windows_student_v1");
+    localStorage.removeItem(STUDENT_KEY);
 
     alert("✅ Nova tentativa liberada neste dispositivo. Recarregando...");
     location.reload();
