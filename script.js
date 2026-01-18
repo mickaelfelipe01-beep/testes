@@ -172,3 +172,26 @@ $("quizForm").addEventListener("submit", async (e) => {
     setStatus("❌ Erro ao enviar. Verifique a URL do Web App e se ele está publicado como 'Qualquer pessoa'.");
   }
 });
+// ================== MODO PROFESSOR (OPÇÃO 2) ==================
+// Troque a senha abaixo por uma sua (não use "1234").
+const TEACHER_PASSWORD = "MUDAR_SENHA_AQUI";
+
+// Botão do professor
+const teacherBtn = document.getElementById("teacherBtn");
+if (teacherBtn) {
+  teacherBtn.addEventListener("click", () => {
+    const pass = prompt("Senha do professor para liberar nova tentativa:");
+    if (pass !== TEACHER_PASSWORD) {
+      alert("Senha incorreta.");
+      return;
+    }
+
+    // Limpa as chaves que travam a tentativa
+    localStorage.removeItem(ATTEMPT_KEY);
+    localStorage.removeItem(START_KEY);
+    localStorage.removeItem("diag_windows_student_v1");
+
+    alert("✅ Nova tentativa liberada neste dispositivo. Recarregando...");
+    location.reload();
+  });
+}
