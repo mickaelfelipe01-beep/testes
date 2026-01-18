@@ -32,9 +32,10 @@ body{
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color:var(--text);
-  background: radial-gradient(1200px 800px at 20% 10%, rgba(124,92,255,.18), transparent 60%),
-              radial-gradient(900px 600px at 80% 25%, rgba(90,162,255,.18), transparent 55%),
-              linear-gradient(180deg, var(--bg1), var(--bg2));
+background: radial-gradient(1200px 800px at 20% 10%, rgba(47,214,163,.16), transparent 60%),
+            radial-gradient(900px 600px at 80% 25%, rgba(16,185,129,.16), transparent 55%),
+            linear-gradient(180deg, var(--bg1), var(--bg2));
+
   overflow-x:hidden;
 }
 
@@ -44,8 +45,8 @@ body{
   filter: blur(38px);
   opacity:.55;
 }
-.orb1{left:-160px; top:-160px; background: radial-gradient(circle at 30% 30%, rgba(90,162,255,.65), transparent 65%);}
-.orb2{right:-200px; bottom:-220px; background: radial-gradient(circle at 40% 40%, rgba(124,92,255,.65), transparent 62%);}
+.orb1{left:-160px; top:-160px; background: radial-gradient(circle at 30% 30%, rgba(47,214,163,.60), transparent 65%);}
+.orb2{right:-200px; bottom:-220px; background: radial-gradient(circle at 40% 40%, rgba(16,185,129,.58), transparent 62%);}
 .grid{
   position:absolute; inset:0;
   background-image:
