@@ -1,7 +1,8 @@
 // ================== CONFIG ==================
 const TIME_LIMIT_SECONDS = 60 * 60; // 60 minutos
-const ATTEMPT_KEY = "diag_windows_attempt_used_v1";
-const START_KEY = "diag_windows_start_ts_v1";
+const PAGE_ID = location.pathname.replaceAll("/", "_"); // identifica a página
+const ATTEMPT_KEY = `diag_windows_attempt_used_v1_${PAGE_ID}`;
+const START_KEY   = `diag_windows_start_ts_v1_${PAGE_ID}`;
 
 // Cole aqui a URL do seu Google Apps Script Web App (passo abaixo)
 const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec";
@@ -78,7 +79,7 @@ startBtn.addEventListener("click", () => {
     return;
   }
   studentName = name;
-  localStorage.setItem("diag_windows_student_v1", studentName);
+  const STUDENT_KEY = `diag_windows_student_v1_${PAGE_ID}`;
   localStorage.setItem(START_KEY, String(Date.now()));
   startExam();
 });
