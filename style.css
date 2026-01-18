@@ -1,17 +1,27 @@
 :root{
-  --bg1:#070b18;
-  --bg2:#0b1226;
+  /* Fundo */
+  --bg1:#08131a;
+  --bg2:#0a1c1f;
+
+  /* Cards / bordas */
   --card: rgba(255,255,255,.06);
   --card2: rgba(255,255,255,.08);
   --line: rgba(255,255,255,.12);
-  --text:#eef3ff;
-  --muted: rgba(238,243,255,.74);
-  --muted2: rgba(238,243,255,.62);
-  --primary:#5aa2ff;
-  --primary2:#7c5cff;
+
+  /* Texto */
+  --text:#eefaff;
+  --muted: rgba(238,250,255,.74);
+  --muted2: rgba(238,250,255,.62);
+
+  /* Tema (Instituto ALFA) - ajuste fino nas cores */
+  --primary:#2fd6a3;   /* verde/menta */
+  --primary2:#10b981;  /* verde forte */
+
+  /* Status */
   --ok:#22c55e;
   --warn:#fbbf24;
   --danger:#fb7185;
+
   --radius:18px;
   --shadow: 0 22px 60px rgba(0,0,0,.42);
 }
