@@ -190,13 +190,20 @@
       display:none;
     }
 
-    .quiz-head{
+    .qtop{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:12px;
       flex-wrap:wrap;
     }
+    .qtop-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     #timer{
       font-weight:950;
       background:#0f172a;
@@ -217,6 +224,52 @@
       font-size:22px;
       font-weight:950;
     }
+
+    .hint-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:2px solid #fde68a;
+      background:#fffbeb;
+      color:#92400e;
+      font-weight:950;
+      cursor:pointer;
+      transition:.15s;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .hint-btn:hover{ transform: translateY(-1px); }
+    .hint-btn:active{ transform: scale(0.99); }
+    .hint-btn.disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      filter: grayscale(0.2);
+    }
+    .hint-ico{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fef3c7;
+      border:1px solid #fde68a;
+      font-size:16px;
+    }
+    .hint-sub{
+      font-weight:900;
+      font-size:12px;
+      color:#b45309;
+      margin-top:2px;
+    }
+    .hint-textwrap{
+      display:flex;
+      flex-direction:column;
+      line-height:1.0;
+    }
+
     .opts{ display:grid; gap:12px; margin-top:12px; }
     .opt{
       padding:14px 14px;
@@ -251,7 +304,7 @@
       background:#fff;
       padding:26px;
       border-radius:24px;
-      max-width:460px;
+      max-width:520px;
       width:100%;
       text-align:center;
       box-shadow:0 25px 50px -12px rgba(0,0,0,0.55);
@@ -260,6 +313,17 @@
     @keyframes pop { from{ transform:scale(.86); opacity:0; } to{ transform:scale(1); opacity:1; } }
     .toast-center h2{ margin:0 0 10px; font-size:24px; font-weight:950; }
     .toast-center p{ color:#334155; line-height:1.55; margin:0 0 16px; }
+
+    .hint-box{
+      background:#fffbeb;
+      border:1px solid #fde68a;
+      border-radius:18px;
+      padding:14px;
+      color:#92400e;
+      text-align:left;
+      font-weight:850;
+      line-height:1.45;
+    }
 
     #resultScreen{ display:none; text-align:center; }
     .score-badge{
@@ -299,6 +363,7 @@
       .card{ padding:20px; }
       .h1{ font-size:26px; }
       #qTitle{ font-size:20px; }
+      .hint-btn{ width:100%; justify-content:center; }
     }
   </style>
 </head>
@@ -340,9 +405,21 @@
     </div>
 
     <div class="card" id="quizCard" style="display:none">
-      <div class="quiz-head">
+      <div class="qtop">
         <div id="progress">Questão 1 de 10</div>
-        <div id="timer">⏳ 60:00</div>
+
+        <div class="qtop-right">
+          <div id="timer">⏳ 60:00</div>
+
+          <!-- Botão de DICA (1x por questão) -->
+          <div class="hint-btn" id="hintBtn" onclick="showHint()">
+            <div class="hint-ico">💡</div>
+            <div class="hint-textwrap">
+              <div>Quero a dica</div>
+              <div class="hint-sub" id="hintSub">1x por questão</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <h2 id="qTitle">Carregando...</h2>
@@ -364,6 +441,7 @@
     </div>
   </div>
 
+  <!-- Feedback (correto/errado) -->
   <div class="overlay" id="feedbackOverlay">
     <div class="toast-center">
       <h2 id="feedbackTitle">Correto!</h2>
@@ -372,11 +450,20 @@
     </div>
   </div>
 
+  <!-- Dica -->
+  <div class="overlay" id="hintOverlay">
+    <div class="toast-center">
+      <h2 style="margin-bottom:10px;">💡 Dica da questão</h2>
+      <div class="hint-box" id="hintText">...</div>
+      <button class="btn-primary" style="margin-top:14px;" onclick="closeHint()">Entendi</button>
+    </div>
+  </div>
+
   <script>
     /***********************
      * CONFIG
      ***********************/
-    const SCRIPT_URL = "COLE_AQUI_SUA_URL_DO_WEB_APP"; // <-- troque
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec"; // <-- troque
     const ACTIVITY_ID = "ARQUIVOS_2026";
     const TIME_LIMIT_SEC = 3600; // 60 min
     const MIN_SCORE = 6;
@@ -391,17 +478,78 @@
       "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/4.png"
     ];
 
+    // ✅ TODAS COM DICA (hint)
     const QUESTIONS = [
-      { q: "O que é um ARQUIVO no computador?", opts: ["Local para guardar pastas", "Qualquer coisa que contém informação (foto, texto, vídeo)", "Programa que apaga tudo", "Pasta secreta"], ans: 1, exp: "Arquivos são as unidades básicas de informação. Pense neles como o 'documento' e a pasta como a 'gaveta'." },
-      { q: "O que é uma PASTA?", opts: ["Local para guardar arquivos e outras pastas", "Um tipo de vídeo", "Arquivo de texto", "Instalador do Windows"], ans: 0, exp: "Pastas servem exclusivamente para organizar e agrupar seus arquivos." },
-      { q: "Qual extensão é de um documento pronto para leitura (não editável)?", opts: ["DOCX", "PDF", "JPG", "EXE"], ans: 1, exp: "O PDF é o formato universal para documentos que não devem ser alterados facilmente." },
-      { q: "Qual extensão representa um programa ou instalador?", opts: ["MP4", "JPG", "EXE", "PDF"], ans: 2, exp: "EXE vem de 'Executable'. É o formato que o Windows usa para rodar programas." },
-      { q: "Qual atalho é usado para COPIAR um arquivo?", opts: ["Ctrl+X", "Ctrl+V", "Ctrl+C", "Ctrl+Z"], ans: 2, exp: "Ctrl+C duplica o arquivo, mantendo o original no lugar." },
-      { q: "Qual atalho é usado para MOVER (recortar) um arquivo?", opts: ["Ctrl+C", "Ctrl+X", "Ctrl+V", "Ctrl+A"], ans: 1, exp: "Ctrl+X 'tira' o arquivo do lugar atual para colá-lo em outro." },
-      { q: "O que acontece ao usar Shift + Delete?", opts: ["Vai para a lixeira", "Renomeia o arquivo", "Apaga permanentemente", "Copia o arquivo"], ans: 2, exp: "Cuidado! Shift+Delete pula a lixeira e apaga o arquivo direto do disco." },
-      { q: "O que você NÃO deve apagar ao renomear um arquivo?", opts: ["O início do nome", "A extensão (.jpg, .pdf)", "Os espaços", "Os números"], ans: 1, exp: "Se você remover a extensão, o computador não saberá com qual programa abrir o arquivo." },
-      { q: "Onde você organiza arquivos no Windows?", opts: ["Painel de Controle", "Google Chrome", "Explorador de Arquivos", "Bloco de Notas"], ans: 2, exp: "O Explorador de Arquivos é a ferramenta principal de gestão de dados do sistema." },
-      { q: "Na regra 5-5-5, o que significa Backup?", opts: ["Deletar tudo", "Cópia de segurança", "Mudar o nome", "Criar 5 pastas"], ans: 1, exp: "Backup é ter uma cópia em local seguro para não perder seus dados importantes." }
+      {
+        q:"O que é um ARQUIVO no computador?",
+        opts:["Local para guardar pastas","Qualquer coisa que contém informação (foto, texto, vídeo)","Programa que apaga tudo","Pasta secreta"],
+        ans:1,
+        exp:"Arquivos são as unidades básicas de informação. Pense neles como o 'documento' e a pasta como a 'gaveta'.",
+        hint:"Pense em exemplos: foto, música, vídeo, PDF… todos são ARQUIVOS (conteúdo)."
+      },
+      {
+        q:"O que é uma PASTA?",
+        opts:["Local para guardar arquivos e outras pastas","Um tipo de vídeo","Arquivo de texto","Instalador do Windows"],
+        ans:0,
+        exp:"Pastas servem exclusivamente para organizar e agrupar seus arquivos.",
+        hint:"Pasta é como uma gaveta: ela guarda coisas dentro (arquivos) e pode ter outras pastas."
+      },
+      {
+        q:"Qual extensão é de um documento pronto para leitura (não editável)?",
+        opts:["DOCX","PDF","JPG","EXE"],
+        ans:1,
+        exp:"O PDF é o formato universal para documentos que não devem ser alterados facilmente.",
+        hint:"Apostilas e documentos “prontos” geralmente vêm nesse formato para facilitar a leitura."
+      },
+      {
+        q:"Qual extensão representa um programa ou instalador?",
+        opts:["MP4","JPG","EXE","PDF"],
+        ans:2,
+        exp:"EXE vem de 'Executable'. É o formato que o Windows usa para rodar programas.",
+        hint:"No Windows, programas/instaladores costumam ser “executáveis” (pense em executar)."
+      },
+      {
+        q:"Qual atalho é usado para COPIAR um arquivo?",
+        opts:["Ctrl+X","Ctrl+V","Ctrl+C","Ctrl+Z"],
+        ans:2,
+        exp:"Ctrl+C duplica o arquivo, mantendo o original no lugar.",
+        hint:"Copiar = letra C (Copy). Depois você cola em outro lugar."
+      },
+      {
+        q:"Qual atalho é usado para MOVER (recortar) um arquivo?",
+        opts:["Ctrl+C","Ctrl+X","Ctrl+V","Ctrl+A"],
+        ans:1,
+        exp:"Ctrl+X 'tira' o arquivo do lugar atual para colá-lo em outro.",
+        hint:"Recortar = letra X. É o mesmo “cortar” usado em textos."
+      },
+      {
+        q:"O que acontece ao usar Shift + Delete?",
+        opts:["Vai para a lixeira","Renomeia o arquivo","Apaga permanentemente","Copia o arquivo"],
+        ans:2,
+        exp:"Cuidado! Shift+Delete pula a lixeira e apaga o arquivo direto do disco.",
+        hint:"Esse comando NÃO manda para a lixeira. É como “apagar de vez”."
+      },
+      {
+        q:"O que você NÃO deve apagar ao renomear um arquivo?",
+        opts:["O início do nome","A extensão (.jpg, .pdf)","Os espaços","Os números"],
+        ans:1,
+        exp:"Se você remover a extensão, o computador não saberá com qual programa abrir o arquivo.",
+        hint:"A parte depois do ponto (.) define o tipo do arquivo e como ele abre."
+      },
+      {
+        q:"Onde você organiza arquivos no Windows?",
+        opts:["Painel de Controle","Google Chrome","Explorador de Arquivos","Bloco de Notas"],
+        ans:2,
+        exp:"O Explorador de Arquivos é a ferramenta principal de gestão de dados do sistema.",
+        hint:"É onde você vê “Downloads”, “Documentos”, pendrive, pastas… no Windows."
+      },
+      {
+        q:"Na regra 5-5-5, o que significa Backup?",
+        opts:["Deletar tudo","Cópia de segurança","Mudar o nome","Criar 5 pastas"],
+        ans:1,
+        exp:"Backup é ter uma cópia em local seguro para não perder seus dados importantes.",
+        hint:"Backup significa ter uma cópia para recuperar se perder ou der problema."
+      }
     ];
 
     /***********************
@@ -419,8 +567,10 @@
     let startTimeMs=0;
     let timeLeft=TIME_LIMIT_SEC;
     let timerInterval=null;
-
     let answersForSheet={}; // q1..q10
+
+    // ✅ controle: dica 1x por questão
+    let hintUsed = [];
 
     function pad2(n){ return String(n).padStart(2,"0"); }
     function formatMMSS(sec){
@@ -451,6 +601,20 @@
       if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
     }
 
+    function setHintButtonState(){
+      const btn = document.getElementById("hintBtn");
+      const sub = document.getElementById("hintSub");
+      const used = !!hintUsed[currentIdx];
+
+      if(used){
+        btn.classList.add("disabled");
+        sub.textContent = "Dica já usada";
+      } else {
+        btn.classList.remove("disabled");
+        sub.textContent = "1x por questão";
+      }
+    }
+
     function startQuiz(){
       if(isLocked()){
         document.getElementById("lockWarn").style.display="block";
@@ -462,6 +626,8 @@
       if(userName.length<5){ alert("Por favor, digite seu nome completo."); return; }
 
       currentIdx=0; score=0; answersForSheet={};
+      hintUsed = new Array(QUESTIONS.length).fill(false);
+
       startTimeMs=Date.now();
       timeLeft=TIME_LIMIT_SEC;
       startCountdown();
@@ -502,6 +668,7 @@
       });
 
       document.getElementById("btnNext").style.display="none";
+      setHintButtonState();
     }
 
     function checkAnswer(i){
@@ -539,6 +706,22 @@
       currentIdx++;
       if(currentIdx>=QUESTIONS.length) return finishQuiz(false);
       renderQuestion();
+    }
+
+    // ✅ Dica 1x por questão
+    function showHint(){
+      if(hintUsed[currentIdx]) return; // já usou
+
+      hintUsed[currentIdx] = true;
+      setHintButtonState();
+
+      const q = QUESTIONS[currentIdx];
+      const hint = (q && q.hint) ? q.hint : "Sem dica cadastrada para esta questão.";
+      document.getElementById("hintText").textContent = hint;
+      document.getElementById("hintOverlay").style.display = "flex";
+    }
+    function closeHint(){
+      document.getElementById("hintOverlay").style.display = "none";
     }
 
     async function finishQuiz(autoByTime){
