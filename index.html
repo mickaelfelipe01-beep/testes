@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Atividade — Arquivos, Pastas e Organização</title>
+  <title>Atividade — Configurações do Windows</title>
 
   <link rel="icon" type="image/png" href="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png">
 
@@ -493,12 +493,12 @@
     </div>
 
     <div class="card" id="startCard">
-      <div class="h1">Atividade de Organização</div>
-      <p class="sub">Exercite seu conhecimento com base em nossa ultima aula. Leia com atenção e faça com calma.</p>
+      <div class="h1">Atividade — Configurações do Windows</div>
+      <p class="sub">Exercite seu conhecimento com base na nossa última aula. Leia com atenção e faça com calma.</p>
 
       <div class="info-box">
         ✅ <b>Importante:</b> esta atividade permite <b>apenas 1 tentativa</b>.
-        Antes de começar, estude bem o documento da ultima aula disponibilado pelo professor. <b>BOA SORTE!</b>.
+        Antes de começar, revise as principais configurações do Windows vistas em sala. <b>BOA SORTE!</b>.
         <small>Se quiser fazer novamente, será necessária a <b>senha do professor</b> para liberar uma nova tentativa.</small>
       </div>
 
@@ -615,8 +615,8 @@
     /***********************
      * CONFIG
      ***********************/
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec"; // <-- troque
-    const ACTIVITY_ID = "ARQUIVOS_2026";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec"; // <-- mantenha seu
+    const ACTIVITY_ID = "CONFIG_WIN_2026"; // ✅ CORRIGIDO
     const TIME_LIMIT_SEC = 3600; // 60 min
     const MIN_SCORE = 6;
 
@@ -630,77 +630,67 @@
       "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/4.png"
     ];
 
-    // ✅ TODAS COM DICA (hint)
+    // ✅ NOVAS QUESTÕES: CONFIGURAÇÕES DO WINDOWS (com exp + dica)
     const QUESTIONS = [
-      {
-        q:"O que é um ARQUIVO no computador?",
-        opts:["Local para guardar pastas","Qualquer coisa que contém informação (foto, texto, vídeo)","Programa que apaga tudo","Pasta secreta"],
+      { q:"Para que serve o Painel de Configurações do Windows?",
+        opts:["Apenas para instalar jogos","Para ajustar e personalizar o funcionamento do computador","Somente para desligar o computador","Apenas para acessar a internet"],
         ans:1,
-        exp:"Arquivos são as unidades básicas de informação. Pense neles como o 'documento' e a pasta como a 'gaveta'.",
-        hint:"Pense em exemplos: foto, música, vídeo, PDF… todos são ARQUIVOS (conteúdo)."
+        exp:"O Painel de Configurações reúne ajustes do sistema (tela, som, conta, idioma, data e muito mais). É onde você controla como o Windows funciona.",
+        hint:"Pense nele como o “painel de controle” do Windows, onde você muda como o computador se comporta."
       },
-      {
-        q:"O que é uma PASTA?",
-        opts:["Local para guardar arquivos e outras pastas","Um tipo de vídeo","Arquivo de texto","Instalador do Windows"],
-        ans:0,
-        exp:"Pastas servem exclusivamente para organizar e agrupar seus arquivos.",
-        hint:"Pasta é como uma gaveta: ela guarda coisas dentro (arquivos) e pode ter outras pastas."
-      },
-      {
-        q:"Qual extensão é de um documento pronto para leitura (não editável)?",
-        opts:["DOCX","PDF","JPG","EXE"],
-        ans:1,
-        exp:"O PDF é o formato universal para documentos que não devem ser alterados facilmente.",
-        hint:"Apostilas e documentos “prontos” geralmente vêm nesse formato para facilitar a leitura."
-      },
-      {
-        q:"Qual extensão representa um programa ou instalador?",
-        opts:["MP4","JPG","EXE","PDF"],
+      { q:"Onde podemos alterar o idioma do sistema no Windows?",
+        opts:["Configurações de Tela","Configurações de Rede","Configurações de Idioma, Data e Hora","Configurações de Som"],
         ans:2,
-        exp:"EXE vem de 'Executable'. É o formato que o Windows usa para rodar programas.",
-        hint:"No Windows, programas/instaladores costumam ser “executáveis” (pense em executar)."
+        exp:"A mudança de idioma fica em Hora e Idioma (Idioma e região). É o local certo para ajustar idioma do Windows e região.",
+        hint:"Quando o assunto é idioma/teclado/região, o caminho geralmente é “Hora e Idioma”."
       },
-      {
-        q:"Qual atalho é usado para COPIAR um arquivo?",
-        opts:["Ctrl+X","Ctrl+V","Ctrl+C","Ctrl+Z"],
+      { q:"Qual a função do ajuste de data e hora no Windows?",
+        opts:["Melhorar o som","Ajustar o brilho da tela","Garantir o horário correto do sistema","Alterar o papel de parede"],
         ans:2,
-        exp:"Ctrl+C duplica o arquivo, mantendo o original no lugar.",
-        hint:"Copiar = letra C (Copy). Depois você cola em outro lugar."
+        exp:"Data e hora corretas evitam problemas em sites, login de contas, certificados e sincronização de aplicativos.",
+        hint:"Se a hora estiver errada, até site pode dar erro. Então o objetivo é manter o relógio do sistema certo."
       },
-      {
-        q:"Qual atalho é usado para MOVER (recortar) um arquivo?",
-        opts:["Ctrl+C","Ctrl+X","Ctrl+V","Ctrl+A"],
+      { q:"O que a resolução de tela influencia?",
+        opts:["A velocidade da internet","A nitidez e o tamanho dos elementos na tela","O volume do som","A segurança do sistema"],
         ans:1,
-        exp:"Ctrl+X 'tira' o arquivo do lugar atual para colá-lo em outro.",
-        hint:"Recortar = letra X. É o mesmo “cortar” usado em textos."
+        exp:"Resolução e escala determinam como a imagem aparece: mais nítida/ajustada ou borrada/esticada e com elementos muito grandes/pequenos.",
+        hint:"Quando a tela fica “estourada” ou “borrada”, quase sempre é resolução/escala."
       },
-      {
-        q:"O que acontece ao usar Shift + Delete?",
-        opts:["Vai para a lixeira","Renomeia o arquivo","Apaga permanentemente","Copia o arquivo"],
+      { q:"Qual opção permite ajustar brilho e escala da tela?",
+        opts:["Som","Personalização","Tela e Resolução","Conta de Usuário"],
         ans:2,
-        exp:"Cuidado! Shift+Delete pula a lixeira e apaga o arquivo direto do disco.",
-        hint:"Esse comando NÃO manda para a lixeira. É como “apagar de vez”."
+        exp:"Esses ajustes ficam em Sistema > Tela. Lá você encontra brilho, escala e resolução (dependendo do equipamento).",
+        hint:"Brilho, escala e resolução são ajustes visuais — ficam em “Tela”."
       },
-      {
-        q:"O que você NÃO deve apagar ao renomear um arquivo?",
-        opts:["O início do nome","A extensão (.jpg, .pdf)","Os espaços","Os números"],
-        ans:1,
-        exp:"Se você remover a extensão, o computador não saberá com qual programa abrir o arquivo.",
-        hint:"A parte depois do ponto (.) define o tipo do arquivo e como ele abre."
-      },
-      {
-        q:"Onde você organiza arquivos no Windows?",
-        opts:["Painel de Controle","Google Chrome","Explorador de Arquivos","Bloco de Notas"],
+      { q:"Onde configuramos fones de ouvido e microfone no Windows?",
+        opts:["Tela","Personalização","Som e Dispositivos de Áudio","Idioma"],
         ans:2,
-        exp:"O Explorador de Arquivos é a ferramenta principal de gestão de dados do sistema.",
-        hint:"É onde você vê “Downloads”, “Documentos”, pendrive, pastas… no Windows."
+        exp:"Em Sistema > Som, você escolhe o dispositivo de saída (fones/caixa) e o de entrada (microfone), além de testar e ajustar volume.",
+        hint:"Se é áudio (ouvir e falar), procure por “Som”."
       },
-      {
-        q:"Na regra 5-5-5, o que significa Backup?",
-        opts:["Deletar tudo","Cópia de segurança","Mudar o nome","Criar 5 pastas"],
+      { q:"Para que serve a Conta de Usuário no Windows?",
+        opts:["Apenas para acessar a internet","Para identificar o usuário e definir permissões","Para ajustar o som","Para trocar o papel de parede"],
         ans:1,
-        exp:"Backup é ter uma cópia em local seguro para não perder seus dados importantes.",
-        hint:"Backup significa ter uma cópia para recuperar se perder ou der problema."
+        exp:"A conta guarda preferências, arquivos do usuário e define permissões (o que pode ou não fazer no PC).",
+        hint:"Conta de usuário = quem está usando o PC e quais limites/permissões essa pessoa tem."
+      },
+      { q:"Qual tipo de conta pode instalar programas e alterar o sistema?",
+        opts:["Usuário convidado","Usuário padrão","Conta bloqueada","Conta de administrador"],
+        ans:3,
+        exp:"A conta de administrador tem permissões elevadas: instalar programas, alterar configurações avançadas e gerenciar usuários.",
+        hint:"Quem “manda no computador” é o administrador."
+      },
+      { q:"O que pode ser alterado na área de Personalização?",
+        opts:["Idioma do teclado","Papel de parede, cores e temas","Data e hora","Microfone"],
+        ans:1,
+        exp:"Em Personalização você muda aparência: plano de fundo, cores, tema e, em alguns casos, tela de bloqueio.",
+        hint:"Personalização = deixar o Windows com a sua cara."
+      },
+      { q:"Por que as configurações do Windows são importantes?",
+        opts:["Apenas para deixar o computador bonito","Apenas para jogos","Para tornar o sistema funcional, seguro e confortável","Somente para técnicos"],
+        ans:2,
+        exp:"Configurações corretas melhoram uso diário, evitam erros (data/hora), resolvem problemas comuns (som/tela) e ajudam na segurança (contas).",
+        hint:"Não é só beleza: é controle, funcionamento e segurança."
       }
     ];
 
@@ -816,7 +806,6 @@
       const t = document.getElementById("statusTitle");
       const d = document.getElementById("statusDesc");
 
-      // type: "success" | "danger" | "primary"
       icon.classList.remove("ico-success","ico-danger","ico-primary");
       if(type==="danger"){
         icon.classList.add("ico-danger");
@@ -859,7 +848,6 @@
       }
     }
 
-    // Enter no input para confirmar
     document.addEventListener("keydown", (e)=>{
       const resetOpen = document.getElementById("resetOverlay").style.display === "flex";
       const statusOpen = document.getElementById("statusOverlay").style.display === "flex";
@@ -931,10 +919,8 @@
       renderQuestion();
     }
 
-    // ✅ Dica 1x por questão
     function showHint(){
-      if(hintUsed[currentIdx]) return; // já usou
-
+      if(hintUsed[currentIdx]) return;
       hintUsed[currentIdx] = true;
       setHintButtonState();
 
@@ -992,7 +978,6 @@
       }
     }
 
-    // Folhas
     function rand(min,max){ return Math.random()*(max-min)+min; }
     function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
     function spawnLeaves(){
