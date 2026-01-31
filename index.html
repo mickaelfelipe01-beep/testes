@@ -3,1007 +3,593 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Atividade — Configurações do Windows</title>
+  <title>Instituto ALFA • Treino de Digitação</title>
 
   <link rel="icon" type="image/png" href="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png">
 
   <style>
     :root{
-      --primary:#2563eb;
-      --success:#16a34a;
-      --danger:#dc2626;
-      --text:#0f172a;
-      --muted:#64748b;
-      --card-bg:rgba(255,255,255,.94);
-      --radius:20px;
+      --bg0:#070a12;
+      --bg1:#0b1220;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --stroke: rgba(255,255,255,.12);
+      --text:#eaf2ff;
+      --muted:#9bb0d1;
+      --brand:#3b82f6;
+      --brand2:#22c55e;
+      --danger:#ef4444;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --radius:18px;
+      --shadow: 0 14px 38px rgba(0,0,0,.45);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
-    *{ box-sizing:border-box; }
 
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family:'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-      background: radial-gradient(1200px 600px at 20% 10%, #e0f2fe 0%, transparent 60%),
-                  radial-gradient(900px 600px at 90% 30%, #dbeafe 0%, transparent 60%),
-                  linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
+      font-family: var(--sans);
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(59,130,246,.25), transparent 55%),
+                  radial-gradient(900px 650px at 90% 15%, rgba(34,197,94,.20), transparent 55%),
+                  radial-gradient(800px 800px at 30% 90%, rgba(245,158,11,.12), transparent 60%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
       overflow-x:hidden;
     }
 
-    .fall-layer{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:0;
+    /* Fundo “magnífico” com partículas */
+    .stars{
+      position:fixed; inset:0; pointer-events:none; opacity:.55;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1px 1px at 120px 110px, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 220px 80px, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(2px 2px at 320px 160px, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(1px 1px at 420px 40px, rgba(255,255,255,.28), transparent 60%),
+        radial-gradient(1px 1px at 520px 190px, rgba(255,255,255,.22), transparent 60%);
+      background-size: 600px 260px;
+      animation: drift 26s linear infinite;
+      filter: blur(.1px);
     }
-    .leaf{
-      position:absolute;
-      top:-60px;
-      width:22px;
-      height:22px;
-      background-size:contain;
-      background-repeat:no-repeat;
-      opacity:.75;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,.12));
-      animation-name: fall, sway;
-      animation-timing-function: linear, ease-in-out;
-      animation-iteration-count: infinite, infinite;
-      will-change: transform;
-    }
-    @keyframes fall{
-      0%   { transform: translateY(-80px) rotate(0deg); }
-      100% { transform: translateY(calc(100vh + 120px)) rotate(360deg); }
-    }
-    @keyframes sway{
-      0%   { margin-left: 0px; }
-      50%  { margin-left: 35px; }
-      100% { margin-left: 0px; }
-    }
+    @keyframes drift{ from{transform:translateY(0)} to{transform:translateY(260px)} }
 
-    .wrap{
-      width:100%;
-      max-width:860px;
-      padding:20px;
-      position:relative;
-      z-index:1;
+    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 40px}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      margin-bottom:18px;
     }
-
-    .topbar{
-      background:var(--card-bg);
-      border-radius:var(--radius);
-      padding:14px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      box-shadow:0 10px 20px rgba(0,0,0,0.08);
-      border:1px solid rgba(255,255,255,0.45);
-    }
-
     .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
+      display:flex; align-items:center; gap:14px;
+      padding:10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 24px rgba(0,0,0,.28);
+      backdrop-filter: blur(10px);
     }
     .brand img{
-      width:52px;
-      height:52px;
-      border-radius:14px;
+      width:44px; height:44px; border-radius:12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      padding:6px;
     }
-    .brand-text{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
+    .brand .txt{line-height:1.1}
+    .brand .txt strong{font-size:14px; letter-spacing:.3px}
+    .brand .txt span{font-size:12px; color:var(--muted)}
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    button{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      transition:.18s transform, .18s background, .18s border;
+      backdrop-filter: blur(10px);
+      font-weight:600;
     }
-    .brand-title{
-      font-weight:950;
-      font-size:20px;
-      color:#0b1220;
-      letter-spacing:.2px;
+    button:hover{transform:translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22)}
+    button.primary{
+      border:none;
+      background: linear-gradient(135deg, rgba(59,130,246,.95), rgba(34,197,94,.85));
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
     }
-    .brand-tagline{
-      font-weight:800;
-      font-size:13px;
-      color:var(--muted);
-      margin-top:4px;
+    button.danger{
+      border:1px solid rgba(239,68,68,.45);
+      background: rgba(239,68,68,.10);
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      margin: 10px 0 14px;
+    }
+    @media (max-width: 880px){
+      .hero{grid-template-columns: 1fr; }
     }
 
     .card{
-      background:var(--card-bg);
-      backdrop-filter: blur(10px);
-      border-radius:var(--radius);
-      padding:28px;
-      box-shadow:0 20px 40px rgba(0,0,0,0.14);
-      border:1px solid rgba(255,255,255,0.35);
-      margin-top:18px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
     }
 
-    .h1{
-      font-size:30px;
-      font-weight:950;
-      color:var(--text);
-      margin:0 0 8px;
+    .title{
+      padding:18px 18px 10px;
     }
-    .sub{
+    .title h1{
+      margin:0;
+      font-size: clamp(22px, 3.2vw, 34px);
+      letter-spacing:.2px;
+    }
+    .title p{
+      margin:8px 0 0;
       color:var(--muted);
-      margin:0 0 18px;
-      line-height:1.5;
+      line-height:1.35;
+      font-size:14px;
     }
 
-    .info-box{
-      background:#eff6ff;
-      border:1px solid #bfdbfe;
-      border-radius:16px;
-      padding:14px 14px;
-      color:#1e3a8a;
-      margin:14px 0 16px;
-      font-weight:700;
-      line-height:1.4;
-    }
-    .info-box small{
-      display:block;
-      font-weight:700;
-      opacity:.85;
-      margin-top:8px;
-      color:#1e40af;
-    }
-
-    input#fullName{
-      width:100%;
-      padding:14px 14px;
-      border-radius:14px;
-      border:2px solid #e2e8f0;
-      font-size:16px;
-      margin:10px 0 12px;
-      outline:none;
-      background:#fff;
-    }
-    input#fullName:focus{
-      border-color:#93c5fd;
-      box-shadow:0 0 0 4px rgba(37,99,235,.10);
-    }
-
-    button{
-      padding:12px 18px;
-      border-radius:14px;
-      border:none;
-      font-weight:900;
-      cursor:pointer;
-      transition:.15s;
-    }
-    button:active{ transform: scale(0.99); }
-    .btn-primary{ background:var(--primary); color:#fff; width:100%; }
-    .btn-ghost{
-      background:transparent;
-      border:2px solid #cbd5e1;
-      color:#0f172a;
-      width:100%;
-      margin-top:10px;
-    }
-    .btn-next{
-      background:#0f172a;
-      color:#fff;
-      width:100%;
-      margin-top:14px;
-      display:none;
-    }
-
-    .qtop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .qtop-right{
-      display:flex;
-      align-items:center;
+    .metrics{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
       gap:10px;
-      flex-wrap:wrap;
+      padding: 14px 14px 16px;
+    }
+    @media (max-width: 520px){
+      .metrics{grid-template-columns: repeat(2, 1fr)}
+    }
+    .metric{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding:12px 12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .metric::before{
+      content:"";
+      position:absolute; inset:-40px -80px auto auto;
+      width:180px; height:180px;
+      background: radial-gradient(circle, rgba(59,130,246,.22), transparent 60%);
+      transform: rotate(10deg);
+    }
+    .metric b{display:block; font-size:18px; letter-spacing:.3px}
+    .metric span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
+
+    .panel{
+      padding: 16px;
     }
 
-    #timer{
-      font-weight:950;
-      background:#0f172a;
-      color:#fff;
-      padding:8px 12px;
-      border-radius:999px;
-      letter-spacing:.5px;
-      min-width:110px;
-      text-align:center;
-    }
-    #progress{
-      font-weight:850;
-      color:var(--primary);
-    }
-    #qTitle{
-      margin:16px 0 10px;
-      color:#0b1220;
-      font-size:22px;
-      font-weight:950;
+    .targetBox{
+      padding:16px;
+      margin: 0 16px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
     }
 
-    .hint-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:2px solid #fde68a;
-      background:#fffbeb;
-      color:#92400e;
-      font-weight:950;
-      cursor:pointer;
-      transition:.15s;
+    .progressWrap{
+      display:flex; align-items:center; gap:10px; margin-bottom:10px;
+    }
+    .bar{
+      height:10px;
+      flex:1;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      overflow:hidden;
+    }
+    .bar > i{
+      display:block; height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(34,197,94,.9), rgba(59,130,246,.9));
+      border-radius: 999px;
+      transition: width .12s linear;
+    }
+    .pct{font-size:12px; color:var(--muted); min-width:48px; text-align:right}
+
+    .targetText{
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height:1.65;
+      white-space: pre-wrap;
+      word-break: break-word;
+      letter-spacing:.2px;
       user-select:none;
-      white-space:nowrap;
     }
-    .hint-btn:hover{ transform: translateY(-1px); }
-    .hint-btn:active{ transform: scale(0.99); }
-    .hint-btn.disabled{
-      opacity:.55;
-      cursor:not-allowed;
-      filter: grayscale(0.2);
+
+    .targetText .ok{color: rgba(34,197,94,.95)}
+    .targetText .bad{color: rgba(239,68,68,.95); text-decoration: underline; text-decoration-thickness: 2px}
+    .targetText .cur{
+      background: rgba(245,158,11,.20);
+      outline: 1px solid rgba(245,158,11,.55);
+      border-radius: 6px;
+      padding: 0 2px;
     }
-    .hint-ico{
-      width:28px;
-      height:28px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#fef3c7;
-      border:1px solid #fde68a;
-      font-size:16px;
+
+    .inputWrap{
+      padding: 0 16px 18px;
     }
-    .hint-sub{
-      font-weight:900;
-      font-size:12px;
-      color:#b45309;
-      margin-top:2px;
+    textarea{
+      width:100%;
+      min-height: 160px;
+      resize: vertical;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline:none;
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.65;
+      box-shadow: 0 14px 28px rgba(0,0,0,.35) inset;
+      transition: .18s border;
     }
-    .hint-textwrap{
+    textarea:focus{border-color: rgba(59,130,246,.65)}
+
+    .hint{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,.18);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      background: rgba(255,255,255,.03);
+    }
+
+    .side{
+      padding:18px;
       display:flex;
       flex-direction:column;
-      line-height:1.0;
-    }
-
-    .opts{ display:grid; gap:12px; margin-top:12px; }
-    .opt{
-      padding:14px 14px;
-      border:2px solid #e2e8f0;
-      border-radius:16px;
-      cursor:pointer;
-      transition:.18s;
-      background:#fff;
-      display:flex;
-      align-items:center;
       gap:12px;
-      font-weight:800;
-      color:#0b1220;
     }
-    .opt:hover{ border-color:var(--primary); background:#eff6ff; }
-    .opt.correct{ background:#dcfce7!important; border-color:var(--success)!important; color:#166534; }
-    .opt.wrong{ background:#fee2e2!important; border-color:var(--danger)!important; color:#991b1b; }
-    .opt.disabled{ cursor:not-allowed; opacity:.8; }
-
-    .overlay{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      display:none;
-      justify-content:center;
-      align-items:center;
-      z-index:1000;
-      padding:16px;
-    }
-    .toast-center{
-      background:#fff;
-      padding:26px;
-      border-radius:24px;
-      max-width:520px;
-      width:100%;
-      text-align:center;
-      box-shadow:0 25px 50px -12px rgba(0,0,0,0.55);
-      animation: pop .28s cubic-bezier(.175,.885,.32,1.275);
-    }
-    @keyframes pop { from{ transform:scale(.86); opacity:0; } to{ transform:scale(1); opacity:1; } }
-    .toast-center h2{ margin:0 0 10px; font-size:24px; font-weight:950; }
-    .toast-center p{ color:#334155; line-height:1.55; margin:0 0 16px; }
-
-    .hint-box{
-      background:#fffbeb;
-      border:1px solid #fde68a;
-      border-radius:18px;
-      padding:14px;
-      color:#92400e;
-      text-align:left;
-      font-weight:850;
-      line-height:1.45;
-    }
-
-    #resultScreen{ display:none; text-align:center; }
-    .score-badge{
-      font-size:56px;
-      font-weight:950;
-      margin:14px 0;
-      display:block;
-      color:#0b1220;
-    }
-    .rank-tag{
-      display:inline-block;
-      padding:8px 18px;
-      border-radius:999px;
-      font-weight:950;
-      text-transform:uppercase;
-      letter-spacing:1px;
-      margin-bottom:12px;
-    }
-    .rank-iniciante{ background:#f1f5f9; color:#475569; }
-    .rank-intermediario{ background:#fef3c7; color:#92400e; }
-    .rank-avancado{ background:#dcfce7; color:#166534; }
-
-    .warn{
-      background:#fff7ed;
-      border:1px solid #fed7aa;
-      color:#9a3412;
-      border-radius:16px;
-      padding:14px;
-      font-weight:850;
-      line-height:1.45;
-      margin-top:14px;
-      display:none;
-    }
-    .muted-note{ color:#64748b; font-weight:800; margin-top:8px; }
-
-    /* =========================
-       MODAL BONITO (Senha/Status)
-       ========================= */
-    .modal{
-      background:rgba(255,255,255,.96);
-      border-radius:26px;
-      max-width:560px;
-      width:100%;
-      padding:22px 22px 18px;
-      box-shadow:0 25px 55px rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.45);
-      text-align:left;
-      animation: pop .28s cubic-bezier(.175,.885,.32,1.275);
-    }
-    .modal-top{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:10px;
-    }
-    .modal-ico{
-      width:52px;
-      height:52px;
-      border-radius:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:24px;
-      font-weight:950;
-      border:1px solid rgba(0,0,0,.06);
-    }
-    .ico-primary{ background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
-    .ico-success{ background:#dcfce7; color:#166534; border-color:#bbf7d0; }
-    .ico-danger{  background:#fee2e2; color:#991b1b; border-color:#fecaca; }
-    .modal-title{
-      margin:0;
-      font-size:22px;
-      font-weight:950;
-      color:#0b1220;
-      line-height:1.15;
-    }
-    .modal-desc{
-      margin:2px 0 0;
-      color:#475569;
-      font-weight:800;
-      line-height:1.45;
-      font-size:14px;
-    }
-    .modal-body{
-      margin-top:14px;
-    }
-    .modal-label{
-      display:block;
-      font-weight:950;
-      color:#0f172a;
-      margin:0 0 8px;
-      font-size:14px;
-    }
-    .modal-input{
-      width:100%;
+    .badge{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
       padding:14px 14px;
-      border-radius:14px;
-      border:2px solid #e2e8f0;
-      font-size:16px;
-      outline:none;
-      background:#fff;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
     }
-    .modal-input:focus{
-      border-color:#93c5fd;
-      box-shadow:0 0 0 4px rgba(37,99,235,.10);
-    }
-    .modal-foot{
-      display:flex;
-      gap:10px;
-      margin-top:16px;
-      flex-wrap:wrap;
-    }
-    .btn-secondary{
-      width:100%;
-      background:#0f172a;
-      color:#fff;
-    }
-    .btn-cancel{
-      width:100%;
-      background:transparent;
-      border:2px solid #cbd5e1;
-      color:#0f172a;
-    }
-    .btn-success{
-      width:100%;
-      background:var(--success);
-      color:#fff;
-    }
-    .btn-danger{
-      width:100%;
-      background:var(--danger);
-      color:#fff;
-    }
-    .tiny-note{
-      margin-top:10px;
+    .badge .left{display:flex; flex-direction:column; gap:2px}
+    .badge .left b{font-size:14px}
+    .badge .left span{font-size:12px; color:var(--muted)}
+    .pill{
       font-size:12px;
-      color:#64748b;
-      font-weight:800;
-      line-height:1.35;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      white-space:nowrap;
     }
+    .pill.ok{border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10)}
+    .pill.bad{border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.10)}
+    .pill.warn{border-color: rgba(245,158,11,.45); background: rgba(245,158,11,.10)}
 
-    @media (min-width:520px){
-      .modal-foot button{ width:auto; flex:1; }
+    .footer{
+      margin-top:14px;
+      padding:14px 16px;
+      color: rgba(255,255,255,.60);
+      font-size: 12px;
+      text-align:center;
     }
+    .glow{
+      position:fixed;
+      width: 520px; height: 520px;
+      left: -160px; top: -200px;
+      background: radial-gradient(circle, rgba(59,130,246,.30), transparent 60%);
+      filter: blur(10px);
+      pointer-events:none;
+      animation: float 10s ease-in-out infinite;
+      opacity:.9;
+    }
+    .glow2{
+      position:fixed;
+      width: 520px; height: 520px;
+      right: -220px; bottom: -260px;
+      background: radial-gradient(circle, rgba(34,197,94,.22), transparent 60%);
+      filter: blur(12px);
+      pointer-events:none;
+      animation: float2 12s ease-in-out infinite;
+      opacity:.85;
+    }
+    @keyframes float{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(18px,24px)} }
+    @keyframes float2{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(-18px,-18px)} }
 
-    @media (max-width:480px){
-      .card{ padding:20px; }
-      .h1{ font-size:26px; }
-      #qTitle{ font-size:20px; }
-      .hint-btn{ width:100%; justify-content:center; }
-    }
+    /* Modo foco */
+    body.focus header, body.focus .side, body.focus .footer{display:none}
+    body.focus .hero{grid-template-columns:1fr}
+    body.focus .wrap{max-width:1000px}
   </style>
 </head>
 
 <body>
-  <div class="fall-layer" id="fallLayer" aria-hidden="true"></div>
+  <div class="stars"></div>
+  <div class="glow"></div>
+  <div class="glow2"></div>
 
   <div class="wrap">
-    <div class="topbar">
+    <header>
       <div class="brand">
-        <img src="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png" alt="Logo">
-        <div class="brand-text">
-          <div class="brand-title">Instituto ALFA</div>
-          <div class="brand-tagline">Formando vencedores!</div>
+        <img alt="Instituto ALFA" src="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png">
+        <div class="txt">
+          <strong>Instituto ALFA</strong><br>
+          <span>Treino de Digitação • Formando vencedores</span>
         </div>
       </div>
-    </div>
 
-    <div class="card" id="startCard">
-      <div class="h1">Atividade — Configurações do Windows</div>
-      <p class="sub">Exercite seu conhecimento com base na nossa última aula. Leia com atenção e faça com calma.</p>
-
-      <div class="info-box">
-        ✅ <b>Importante:</b> esta atividade permite <b>apenas 1 tentativa</b>.
-        Antes de começar, revise as principais configurações do Windows vistas em sala. <b>BOA SORTE!</b>.
-        <small>Se quiser fazer novamente, será necessária a <b>senha do professor</b> para liberar uma nova tentativa.</small>
+      <div class="actions">
+        <button class="primary" id="btnStart">Começar</button>
+        <button id="btnFocus">Modo Foco</button>
+        <button class="danger" id="btnReset">Reiniciar</button>
       </div>
+    </header>
 
-      <input type="text" id="fullName" placeholder="Digite seu nome completo">
-      <button class="btn-primary" onclick="startQuiz()">Começar Atividade →</button>
-      <button class="btn-ghost" onclick="requestReset()">Liberar nova tentativa (senha do professor)</button>
+    <section class="hero">
+      <div class="card">
+        <div class="title">
+          <h1>Treino de Digitação</h1>
+          <p>
+            Digite o texto abaixo com calma e precisão. A página marca seus acertos e erros em tempo real.
+            <br>Objetivo: melhorar ritmo, coordenação e atenção. Velocidade vem depois.
+          </p>
+        </div>
 
-      <div class="warn" id="lockWarn">
-        🚫 <b>Verificamos que você já fez uma tentativa.</b><br>
-        Para fazer novamente, peça ao professor a senha para liberar.
-      </div>
+        <div class="metrics">
+          <div class="metric"><b id="mWpm">0</b><span>WPM (palavras/min)</span></div>
+          <div class="metric"><b id="mAcc">100%</b><span>Precisão</span></div>
+          <div class="metric"><b id="mErr">0</b><span>Erros</span></div>
+          <div class="metric"><b id="mTime">00:00</b><span>Tempo</span></div>
+        </div>
 
-      <div class="muted-note">Dica: não feche a página durante a atividade.</div>
-    </div>
+        <div class="targetBox">
+          <div class="progressWrap">
+            <div class="bar"><i id="barFill"></i></div>
+            <div class="pct" id="pct">0%</div>
+          </div>
+          <div class="targetText" id="target"></div>
+        </div>
 
-    <div class="card" id="quizCard" style="display:none">
-      <div class="qtop">
-        <div id="progress">Questão 1 de 10</div>
-
-        <div class="qtop-right">
-          <div id="timer">⏳ 60:00</div>
-
-          <!-- Botão de DICA (1x por questão) -->
-          <div class="hint-btn" id="hintBtn" onclick="showHint()">
-            <div class="hint-ico">💡</div>
-            <div class="hint-textwrap">
-              <div>Quero a dica</div>
-              <div class="hint-sub" id="hintSub">1x por questão</div>
-            </div>
+        <div class="inputWrap">
+          <textarea id="input" placeholder="Clique em “Começar” e digite aqui..."></textarea>
+          <div class="hint">
+            Dica: use todos os dedos, mantenha postura correta, e tente não olhar para o teclado. Se errar, continue — o importante é a constância.
           </div>
         </div>
       </div>
 
-      <h2 id="qTitle">Carregando...</h2>
-      <div class="opts" id="qOpts"></div>
-      <button id="btnNext" class="btn-next" onclick="nextQuestion()">Próxima Questão</button>
-    </div>
-
-    <div class="card" id="resultScreen">
-      <div id="resultEmoji" style="font-size: 80px;">🏆</div>
-      <div class="h1" id="resultTitle">Excelente trabalho!</div>
-      <p id="resultMsg" class="sub" style="margin-top:8px;">Você concluiu a atividade com sucesso.</p>
-
-      <span id="rankTag" class="rank-tag rank-iniciante">Iniciante</span>
-      <span class="score-badge" id="finalScore">0/10</span>
-
-      <p style="color:#64748b; font-weight:800; margin:0;">
-        Sua resposta foi enviada para o professor.
-      </p>
-    </div>
-  </div>
-
-  <!-- Feedback (correto/errado) -->
-  <div class="overlay" id="feedbackOverlay">
-    <div class="toast-center">
-      <h2 id="feedbackTitle">Correto!</h2>
-      <p id="feedbackText">Explicação aqui.</p>
-      <button class="btn-primary" onclick="closeFeedback()">Entendi</button>
-    </div>
-  </div>
-
-  <!-- Dica -->
-  <div class="overlay" id="hintOverlay">
-    <div class="toast-center">
-      <h2 style="margin-bottom:10px;">💡 Dica da questão</h2>
-      <div class="hint-box" id="hintText">...</div>
-      <button class="btn-primary" style="margin-top:14px;" onclick="closeHint()">Entendi</button>
-    </div>
-  </div>
-
-  <!-- =========================
-       MODAL SENHA + STATUS (BONITÃO)
-       ========================= -->
-  <div class="overlay" id="resetOverlay" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
-    <div class="modal">
-      <div class="modal-top">
-        <div class="modal-ico ico-primary" id="resetIcon">🔐</div>
-        <div>
-          <h2 class="modal-title" id="resetTitle">Liberar nova tentativa</h2>
-          <p class="modal-desc" id="resetDesc">Digite a senha do professor para liberar uma nova chance.</p>
+      <aside class="card side">
+        <div class="badge">
+          <div class="left">
+            <b>Status</b>
+            <span id="statusTxt">Pronto para iniciar</span>
+          </div>
+          <div class="pill warn" id="statusPill">Aguardando</div>
         </div>
-      </div>
 
-      <div class="modal-body" id="resetBody">
-        <label class="modal-label" for="resetPass">Senha do professor</label>
-        <input class="modal-input" id="resetPass" type="password" placeholder="Digite a senha..." autocomplete="off" />
-        <div class="tiny-note">Dica: após liberar, o aluno pode clicar em “Começar Atividade” novamente.</div>
-      </div>
-
-      <div class="modal-foot">
-        <button class="btn-cancel" onclick="closeResetModal()">Cancelar</button>
-        <button class="btn-secondary" onclick="confirmResetPassword()">Liberar tentativa ✅</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="overlay" id="statusOverlay" role="dialog" aria-modal="true" aria-labelledby="statusTitle">
-    <div class="modal" style="text-align:center;">
-      <div class="modal-top" style="justify-content:center;">
-        <div class="modal-ico ico-success" id="statusIcon">✅</div>
-        <div style="text-align:left;">
-          <h2 class="modal-title" id="statusTitle">Tudo certo!</h2>
-          <p class="modal-desc" id="statusDesc">Nova tentativa liberada. Pode começar novamente.</p>
+        <div class="badge">
+          <div class="left">
+            <b>Meta da aula</b>
+            <span>Precisão acima de 90%</span>
+          </div>
+          <div class="pill ok">Boa!</div>
         </div>
-      </div>
 
-      <div class="modal-foot" style="justify-content:center;">
-        <button class="btn-primary" onclick="closeStatusModal()">Entendi</button>
-      </div>
+        <div class="badge">
+          <div class="left">
+            <b>Regras do treino</b>
+            <span>Sem pressa. Sem copiar/colar.</span>
+          </div>
+          <div class="pill">Disciplina</div>
+        </div>
+
+        <div class="badge">
+          <div class="left">
+            <b>Quando terminar</b>
+            <span>Mostre seu resultado ao professor</span>
+          </div>
+          <div class="pill">ALFA</div>
+        </div>
+      </aside>
+    </section>
+
+    <div class="footer">
+      © Instituto ALFA • Treino de Digitação — desenvolvido para prática e evolução diária.
     </div>
   </div>
 
   <script>
-    /***********************
-     * CONFIG
-     ***********************/
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbpqy_jPs93pF8VanfiZ-WDGWqJs-k7MwWjjYWbsEV1JdiJlYnfgXsYGlKB06bdHE/exec"; // <-- mantenha seu
-    const ACTIVITY_ID = "CONFIG_WIN_2026"; // ✅ CORRIGIDO
-    const TIME_LIMIT_SEC = 3600; // 60 min
-    const MIN_SCORE = 6;
+    // ✅ TEXTO DO TREINO (edite aqui quando quiser)
+    const TARGET_TEXT =
+`No Instituto ALFA, acreditamos que todo grande profissional começa com uma boa base.
+A digitação é uma habilidade essencial no mundo moderno, presente em praticamente todas as áreas da tecnologia, do estudo e do trabalho.
 
-    // ATENÇÃO: se o repositório for público, evite senha real aqui
-    const PROFESSOR_PASSWORD = "ALFA@2026";
+Quando você digita com atenção, calma e postura correta, seu cérebro aprende a organizar ideias, melhorar a concentração e ganhar agilidade.
+Não é sobre ser rápido no início, mas sim ser preciso e constante.
 
-    const LEAF_ICONS = [
-      "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/1.png",
-      "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/2.png",
-      "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/3.png",
-      "https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/4.png"
-    ];
+Enquanto você digita este texto, lembre-se de manter os olhos na tela, as mãos posicionadas corretamente no teclado e a coluna ereta.
+Respire fundo, vá com calma e confie no processo.
 
-    // ✅ NOVAS QUESTÕES: CONFIGURAÇÕES DO WINDOWS (com exp + dica)
-    const QUESTIONS = [
-      { q:"Para que serve o Painel de Configurações do Windows?",
-        opts:["Apenas para instalar jogos","Para ajustar e personalizar o funcionamento do computador","Somente para desligar o computador","Apenas para acessar a internet"],
-        ans:1,
-        exp:"O Painel de Configurações reúne ajustes do sistema (tela, som, conta, idioma, data e muito mais). É onde você controla como o Windows funciona.",
-        hint:"Pense nele como o “painel de controle” do Windows, onde você muda como o computador se comporta."
-      },
-      { q:"Onde podemos alterar o idioma do sistema no Windows?",
-        opts:["Configurações de Tela","Configurações de Rede","Configurações de Idioma, Data e Hora","Configurações de Som"],
-        ans:2,
-        exp:"A mudança de idioma fica em Hora e Idioma (Idioma e região). É o local certo para ajustar idioma do Windows e região.",
-        hint:"Quando o assunto é idioma/teclado/região, o caminho geralmente é “Hora e Idioma”."
-      },
-      { q:"Qual a função do ajuste de data e hora no Windows?",
-        opts:["Melhorar o som","Ajustar o brilho da tela","Garantir o horário correto do sistema","Alterar o papel de parede"],
-        ans:2,
-        exp:"Data e hora corretas evitam problemas em sites, login de contas, certificados e sincronização de aplicativos.",
-        hint:"Se a hora estiver errada, até site pode dar erro. Então o objetivo é manter o relógio do sistema certo."
-      },
-      { q:"O que a resolução de tela influencia?",
-        opts:["A velocidade da internet","A nitidez e o tamanho dos elementos na tela","O volume do som","A segurança do sistema"],
-        ans:1,
-        exp:"Resolução e escala determinam como a imagem aparece: mais nítida/ajustada ou borrada/esticada e com elementos muito grandes/pequenos.",
-        hint:"Quando a tela fica “estourada” ou “borrada”, quase sempre é resolução/escala."
-      },
-      { q:"Qual opção permite ajustar brilho e escala da tela?",
-        opts:["Som","Personalização","Tela e Resolução","Conta de Usuário"],
-        ans:2,
-        exp:"Esses ajustes ficam em Sistema > Tela. Lá você encontra brilho, escala e resolução (dependendo do equipamento).",
-        hint:"Brilho, escala e resolução são ajustes visuais — ficam em “Tela”."
-      },
-      { q:"Onde configuramos fones de ouvido e microfone no Windows?",
-        opts:["Tela","Personalização","Som e Dispositivos de Áudio","Idioma"],
-        ans:2,
-        exp:"Em Sistema > Som, você escolhe o dispositivo de saída (fones/caixa) e o de entrada (microfone), além de testar e ajustar volume.",
-        hint:"Se é áudio (ouvir e falar), procure por “Som”."
-      },
-      { q:"Para que serve a Conta de Usuário no Windows?",
-        opts:["Apenas para acessar a internet","Para identificar o usuário e definir permissões","Para ajustar o som","Para trocar o papel de parede"],
-        ans:1,
-        exp:"A conta guarda preferências, arquivos do usuário e define permissões (o que pode ou não fazer no PC).",
-        hint:"Conta de usuário = quem está usando o PC e quais limites/permissões essa pessoa tem."
-      },
-      { q:"Qual tipo de conta pode instalar programas e alterar o sistema?",
-        opts:["Usuário convidado","Usuário padrão","Conta bloqueada","Conta de administrador"],
-        ans:3,
-        exp:"A conta de administrador tem permissões elevadas: instalar programas, alterar configurações avançadas e gerenciar usuários.",
-        hint:"Quem “manda no computador” é o administrador."
-      },
-      { q:"O que pode ser alterado na área de Personalização?",
-        opts:["Idioma do teclado","Papel de parede, cores e temas","Data e hora","Microfone"],
-        ans:1,
-        exp:"Em Personalização você muda aparência: plano de fundo, cores, tema e, em alguns casos, tela de bloqueio.",
-        hint:"Personalização = deixar o Windows com a sua cara."
-      },
-      { q:"Por que as configurações do Windows são importantes?",
-        opts:["Apenas para deixar o computador bonito","Apenas para jogos","Para tornar o sistema funcional, seguro e confortável","Somente para técnicos"],
-        ans:2,
-        exp:"Configurações corretas melhoram uso diário, evitam erros (data/hora), resolvem problemas comuns (som/tela) e ajudam na segurança (contas).",
-        hint:"Não é só beleza: é controle, funcionamento e segurança."
-      }
-    ];
+Errar faz parte do aprendizado.
+Cada palavra digitada é um passo a mais na sua evolução.
 
-    /***********************
-     * 1 tentativa por navegador
-     ***********************/
-    const LOCK_KEY = `quiz_lock_${ACTIVITY_ID}`;
-    function isLocked(){ return localStorage.getItem(LOCK_KEY) === "1"; }
-    function lockAttempt(){ localStorage.setItem(LOCK_KEY, "1"); }
-    function unlockAttempt(){ localStorage.removeItem(LOCK_KEY); }
+Aqui no Instituto ALFA, formamos mais do que alunos.
+Formamos vencedores.
 
-    /***********************
-     * Estado
-     ***********************/
-    let currentIdx=0, score=0, userName="";
-    let startTimeMs=0;
-    let timeLeft=TIME_LIMIT_SEC;
-    let timerInterval=null;
-    let answersForSheet={}; // q1..q10
+Continue praticando, continue evoluindo e nunca duvide do seu potencial.`;
 
-    // ✅ controle: dica 1x por questão
-    let hintUsed = [];
+    const elTarget = document.getElementById("target");
+    const elInput  = document.getElementById("input");
 
-    function pad2(n){ return String(n).padStart(2,"0"); }
-    function formatMMSS(sec){
-      const m=Math.floor(sec/60), s=sec%60;
-      return `${pad2(m)}:${pad2(s)}`;
-    }
-    function updateTimerUI(){
-      const el=document.getElementById("timer");
-      el.textContent=`⏳ ${formatMMSS(timeLeft)}`;
-      if(timeLeft<=60) el.style.background="#dc2626";
-      else if(timeLeft<=300) el.style.background="#b45309";
-      else el.style.background="#0f172a";
-    }
-    function startCountdown(){
-      stopCountdown();
-      updateTimerUI();
-      timerInterval=setInterval(()=>{
-        timeLeft--;
-        if(timeLeft<0) timeLeft=0;
-        updateTimerUI();
-        if(timeLeft<=0){
-          stopCountdown();
-          finishQuiz(true);
+    const mWpm  = document.getElementById("mWpm");
+    const mAcc  = document.getElementById("mAcc");
+    const mErr  = document.getElementById("mErr");
+    const mTime = document.getElementById("mTime");
+
+    const statusTxt  = document.getElementById("statusTxt");
+    const statusPill = document.getElementById("statusPill");
+
+    const barFill = document.getElementById("barFill");
+    const pct = document.getElementById("pct");
+
+    const btnStart = document.getElementById("btnStart");
+    const btnReset = document.getElementById("btnReset");
+    const btnFocus = document.getElementById("btnFocus");
+
+    let started = false;
+    let t0 = 0;
+    let timer = null;
+
+    // Render inicial
+    function renderTarget(user = "") {
+      const t = TARGET_TEXT;
+      let html = "";
+      let errors = 0;
+      let correct = 0;
+
+      for (let i = 0; i < t.length; i++) {
+        const expected = t[i];
+        const typed = user[i];
+
+        if (typed == null) {
+          // cursor no próximo caractere
+          if (i === user.length) html += `<span class="cur">${escapeHtml(expected)}</span>`;
+          else html += escapeHtml(expected);
+          continue;
         }
-      },1000);
-    }
-    function stopCountdown(){
-      if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-    }
 
-    function setHintButtonState(){
-      const btn = document.getElementById("hintBtn");
-      const sub = document.getElementById("hintSub");
-      const used = !!hintUsed[currentIdx];
+        if (typed === expected) {
+          html += `<span class="ok">${escapeHtml(expected)}</span>`;
+          correct++;
+        } else {
+          html += `<span class="bad">${escapeHtml(expected)}</span>`;
+          errors++;
+        }
+      }
 
-      if(used){
-        btn.classList.add("disabled");
-        sub.textContent = "Dica já usada";
+      elTarget.innerHTML = html;
+
+      const totalTyped = user.length;
+      const totalCompared = Math.min(totalTyped, t.length);
+      const acc = totalCompared > 0 ? (correct / totalCompared) : 1;
+
+      // progresso
+      const progress = Math.min(totalTyped / t.length, 1);
+      barFill.style.width = (progress * 100).toFixed(1) + "%";
+      pct.textContent = Math.round(progress * 100) + "%";
+
+      // métricas
+      mErr.textContent = errors;
+
+      const elapsedMin = started ? ((Date.now() - t0) / 60000) : 0;
+      const words = totalTyped / 5; // padrão WPM (5 chars = 1 palavra)
+      const wpm = (elapsedMin > 0) ? Math.round(words / elapsedMin) : 0;
+
+      mWpm.textContent = wpm;
+      mAcc.textContent = Math.round(acc * 100) + "%";
+
+      // status
+      if (!started) {
+        setStatus("Pronto para iniciar", "warn");
+      } else if (progress >= 1) {
+        setStatus(acc >= 0.90 ? "Concluído! Excelente trabalho." : "Concluído! Agora busque mais precisão.", acc >= 0.90 ? "ok" : "warn");
+        stopTimer();
       } else {
-        btn.classList.remove("disabled");
-        sub.textContent = "1x por questão";
+        if (errors === 0 && totalTyped > 0) setStatus("Perfeito até aqui! Continue.", "ok");
+        else if (errors > 0) setStatus("Sem desespero: corrija com calma.", "warn");
+        else setStatus("Digite com calma e atenção.", "warn");
       }
     }
 
-    function startQuiz(){
-      if(isLocked()){
-        document.getElementById("lockWarn").style.display="block";
-        return;
-      }
-      document.getElementById("lockWarn").style.display="none";
-
-      userName=document.getElementById("fullName").value.trim();
-      if(userName.length<5){ alert("Por favor, digite seu nome completo."); return; }
-
-      currentIdx=0; score=0; answersForSheet={};
-      hintUsed = new Array(QUESTIONS.length).fill(false);
-
-      startTimeMs=Date.now();
-      timeLeft=TIME_LIMIT_SEC;
-      startCountdown();
-
-      document.getElementById("startCard").style.display="none";
-      document.getElementById("quizCard").style.display="block";
-      document.getElementById("resultScreen").style.display="none";
-
-      renderQuestion();
+    function setStatus(text, kind){
+      statusTxt.textContent = text;
+      statusPill.className = "pill " + (kind || "");
+      statusPill.textContent = (kind === "ok") ? "Em dia" : (kind === "bad") ? "Atenção" : "Treino";
     }
 
-    /* =========================
-       RESET BONITO (sem prompt/alert)
-       ========================= */
-    function requestReset(){
-      openResetModal();
+    function escapeHtml(s){
+      return (s+"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
     }
 
-    function openResetModal(){
-      const overlay = document.getElementById("resetOverlay");
-      const input = document.getElementById("resetPass");
-      overlay.style.display = "flex";
-      input.value = "";
-      setTimeout(()=> input.focus(), 50);
+    function formatTime(ms){
+      const total = Math.max(0, Math.floor(ms/1000));
+      const mm = String(Math.floor(total/60)).padStart(2,"0");
+      const ss = String(total%60).padStart(2,"0");
+      return `${mm}:${ss}`;
     }
 
-    function closeResetModal(){
-      document.getElementById("resetOverlay").style.display = "none";
+    function startTimer(){
+      stopTimer();
+      timer = setInterval(()=>{
+        if (!started) return;
+        mTime.textContent = formatTime(Date.now() - t0);
+      }, 250);
+    }
+    function stopTimer(){
+      if (timer) clearInterval(timer);
+      timer = null;
     }
 
-    function showStatusModal(type, title, desc){
-      const overlay = document.getElementById("statusOverlay");
-      const icon = document.getElementById("statusIcon");
-      const t = document.getElementById("statusTitle");
-      const d = document.getElementById("statusDesc");
-
-      icon.classList.remove("ico-success","ico-danger","ico-primary");
-      if(type==="danger"){
-        icon.classList.add("ico-danger");
-        icon.textContent = "❌";
-      } else if(type==="primary"){
-        icon.classList.add("ico-primary");
-        icon.textContent = "ℹ️";
-      } else {
-        icon.classList.add("ico-success");
-        icon.textContent = "✅";
-      }
-
-      t.textContent = title || "Aviso";
-      d.textContent = desc || "";
-
-      overlay.style.display = "flex";
-    }
-
-    function closeStatusModal(){
-      document.getElementById("statusOverlay").style.display = "none";
-    }
-
-    function confirmResetPassword(){
-      const input = document.getElementById("resetPass");
-      const pass = (input.value || "").trim();
-
-      if(!pass){
-        showStatusModal("primary","Digite a senha","Sem a senha do professor, não dá pra liberar a nova tentativa.");
-        return;
-      }
-
-      if(pass === PROFESSOR_PASSWORD){
-        unlockAttempt();
-        document.getElementById("lockWarn").style.display="none";
-        closeResetModal();
-        showStatusModal("success","Senha correta! 🎉","Nova tentativa liberada. Agora é só clicar em “Começar Atividade”.");
-      } else {
-        closeResetModal();
-        showStatusModal("danger","Senha incorreta","Essa senha não confere. Peça ao professor e tente novamente.");
-      }
-    }
-
-    document.addEventListener("keydown", (e)=>{
-      const resetOpen = document.getElementById("resetOverlay").style.display === "flex";
-      const statusOpen = document.getElementById("statusOverlay").style.display === "flex";
-
-      if(resetOpen && e.key === "Enter"){
-        e.preventDefault();
-        confirmResetPassword();
-      }
-      if((resetOpen || statusOpen) && e.key === "Escape"){
-        if(resetOpen) closeResetModal();
-        if(statusOpen) closeStatusModal();
-      }
+    btnStart.addEventListener("click", ()=>{
+      if (started) return;
+      started = true;
+      t0 = Date.now();
+      mTime.textContent = "00:00";
+      startTimer();
+      elInput.disabled = false;
+      elInput.focus();
+      setStatus("Treino iniciado. Vá com calma.", "warn");
     });
 
-    function renderQuestion(){
-      const q=QUESTIONS[currentIdx];
-      document.getElementById("progress").innerText=`Questão ${currentIdx+1} de ${QUESTIONS.length}`;
-      document.getElementById("qTitle").innerText=q.q;
-
-      const optsDiv=document.getElementById("qOpts");
-      optsDiv.innerHTML="";
-
-      q.opts.forEach((opt,i)=>{
-        const btn=document.createElement("div");
-        btn.className="opt";
-        btn.innerText=opt;
-        btn.onclick=()=>checkAnswer(i);
-        optsDiv.appendChild(btn);
-      });
-
-      document.getElementById("btnNext").style.display="none";
-      setHintButtonState();
-    }
-
-    function checkAnswer(i){
-      const q=QUESTIONS[currentIdx];
-      const opts=document.querySelectorAll(".opt");
-      if(opts.length && opts[0].classList.contains("disabled")) return;
-
-      const isCorrect=(i===q.ans);
-      if(isCorrect) score++;
-
-      const qKey="q"+(currentIdx+1);
-      answersForSheet[qKey]=q.opts[i];
-
-      opts.forEach((opt,idx)=>{
-        opt.classList.add("disabled");
-        if(idx===q.ans) opt.classList.add("correct");
-        if(idx===i && !isCorrect) opt.classList.add("wrong");
-      });
-
-      document.getElementById("feedbackOverlay").style.display="flex";
-      document.getElementById("feedbackTitle").innerText=isCorrect ? "✅ Muito bem!" : "❌ Quase lá...";
-      document.getElementById("feedbackTitle").style.color=isCorrect ? "var(--success)" : "var(--danger)";
-      document.getElementById("feedbackText").innerHTML=
-        `<b>A resposta correta era:</b> ${q.opts[q.ans]}<br><br>${q.exp}`;
-
-      document.getElementById("btnNext").style.display="block";
-    }
-
-    function closeFeedback(){
-      document.getElementById("feedbackOverlay").style.display="none";
-      if(currentIdx===QUESTIONS.length-1) finishQuiz(false);
-    }
-
-    function nextQuestion(){
-      currentIdx++;
-      if(currentIdx>=QUESTIONS.length) return finishQuiz(false);
-      renderQuestion();
-    }
-
-    function showHint(){
-      if(hintUsed[currentIdx]) return;
-      hintUsed[currentIdx] = true;
-      setHintButtonState();
-
-      const q = QUESTIONS[currentIdx];
-      const hint = (q && q.hint) ? q.hint : "Sem dica cadastrada para esta questão.";
-      document.getElementById("hintText").textContent = hint;
-      document.getElementById("hintOverlay").style.display = "flex";
-    }
-    function closeHint(){
-      document.getElementById("hintOverlay").style.display = "none";
-    }
-
-    async function finishQuiz(autoByTime){
-      stopCountdown();
-      lockAttempt();
-
-      document.getElementById("quizCard").style.display="none";
-      document.getElementById("resultScreen").style.display="block";
-
-      let rank="", title="", msg="", emoji="";
-      if(score>=9){
-        rank="Avançado"; title="Incrível!"; msg="Você domina o assunto perfeitamente!"; emoji="🏆";
-      } else if(score>=MIN_SCORE){
-        rank="Intermediário"; title="Parabéns!"; msg="Você atingiu uma boa nota. Continue assim!"; emoji="🥈";
-      } else {
-        rank="Iniciante"; title="Não desanime!"; msg="Faltou pouco. Revise o conteúdo e você melhora na próxima!"; emoji="📚";
-      }
-      if(autoByTime) msg="⏰ O tempo acabou, mas sua tentativa foi enviada automaticamente.";
-
-      document.getElementById("finalScore").innerText=`${score}/${QUESTIONS.length}`;
-      document.getElementById("rankTag").innerText=rank;
-      document.getElementById("rankTag").className="rank-tag " + (
-        rank==="Avançado" ? "rank-avancado" : rank==="Intermediário" ? "rank-intermediario" : "rank-iniciante"
-      );
-      document.getElementById("resultTitle").innerText=title;
-      document.getElementById("resultMsg").innerText=msg;
-      document.getElementById("resultEmoji").innerText=emoji;
-
-      const payload = {
-        action:"submit",
-        activityId: ACTIVITY_ID,
-        name: userName,
-        startedAt: startTimeMs,
-        submittedAt: Date.now(),
-        remainingSeconds: timeLeft,
-        scoreMC: score,
-        levelMC: rank,
-        answers: answersForSheet
-      };
-
-      try{
-        await fetch(SCRIPT_URL, { method:"POST", mode:"no-cors", body: JSON.stringify(payload) });
-      }catch(e){
-        console.log("Erro ao enviar:", e);
-      }
-    }
-
-    function rand(min,max){ return Math.random()*(max-min)+min; }
-    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-    function spawnLeaves(){
-      const layer=document.getElementById("fallLayer");
-      layer.innerHTML="";
-      const count=26;
-      for(let i=0;i<count;i++){
-        const el=document.createElement("div");
-        el.className="leaf";
-        const size=Math.floor(rand(16,26));
-        el.style.width=size+"px";
-        el.style.height=size+"px";
-        el.style.left=rand(0,100)+"vw";
-        el.style.opacity=rand(0.45,0.85);
-        el.style.backgroundImage=`url('${pick(LEAF_ICONS)}')`;
-        el.style.animationDuration=`${rand(8,16)}s, ${rand(2.6,5.0)}s`;
-        el.style.animationDelay=`-${rand(0,8)}s, 0s`;
-        layer.appendChild(el);
-      }
-    }
-
-    window.addEventListener("load", ()=>{
-      spawnLeaves();
-      updateTimerUI();
-      document.getElementById("lockWarn").style.display = isLocked() ? "block" : "none";
+    btnReset.addEventListener("click", ()=>{
+      started = false;
+      stopTimer();
+      elInput.value = "";
+      elInput.disabled = true;
+      mTime.textContent = "00:00";
+      mWpm.textContent = "0";
+      mAcc.textContent = "100%";
+      mErr.textContent = "0";
+      barFill.style.width = "0%";
+      pct.textContent = "0%";
+      renderTarget("");
+      setStatus("Pronto para iniciar", "warn");
     });
+
+    btnFocus.addEventListener("click", ()=>{
+      document.body.classList.toggle("focus");
+      btnFocus.textContent = document.body.classList.contains("focus") ? "Sair do Foco" : "Modo Foco";
+      elInput.focus();
+    });
+
+    elInput.addEventListener("input", ()=>{
+      if (!started) return;
+      const typed = elInput.value;
+      // bloqueia digitar além do tamanho do texto (opcional)
+      if (typed.length > TARGET_TEXT.length) {
+        elInput.value = typed.slice(0, TARGET_TEXT.length);
+      }
+      renderTarget(elInput.value);
+    });
+
+    // inicial
+    elInput.disabled = true;
+    renderTarget("");
   </script>
 </body>
 </html>
