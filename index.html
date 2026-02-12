@@ -3,593 +3,555 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Instituto ALFA • Treino de Digitação</title>
+  <title>Área do Aluno • Instituto ALFA</title>
 
   <link rel="icon" type="image/png" href="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png">
 
+  <!-- Editor "tipo Word" (Quill) -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet"/>
+
   <style>
     :root{
-      --bg0:#070a12;
-      --bg1:#0b1220;
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.09);
-      --stroke: rgba(255,255,255,.12);
-      --text:#eaf2ff;
-      --muted:#9bb0d1;
-      --brand:#3b82f6;
-      --brand2:#22c55e;
-      --danger:#ef4444;
-      --ok:#22c55e;
-      --warn:#f59e0b;
-      --radius:18px;
-      --shadow: 0 14px 38px rgba(0,0,0,.45);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --bg1:#f6f7fb;
+      --bg2:#eef2f7;
+      --card:#ffffff;
+      --card2:#ffffff;
+      --line:rgba(15,23,42,.10);
+      --text:#0f172a;
+      --muted:rgba(15,23,42,.65);
+      --brand:#16a34a;
+      --brand2:#f97316;
+      --shadow: 0 18px 45px rgba(2,6,23,.08);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: var(--sans);
+      font-family:var(--font);
       color:var(--text);
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(59,130,246,.25), transparent 55%),
-                  radial-gradient(900px 650px at 90% 15%, rgba(34,197,94,.20), transparent 55%),
-                  radial-gradient(800px 800px at 30% 90%, rgba(245,158,11,.12), transparent 60%),
-                  linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
+      background:
+        radial-gradient(900px 450px at 10% 10%, rgba(22,163,74,.10), transparent 55%),
+        radial-gradient(900px 450px at 90% 10%, rgba(249,115,22,.10), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
     }
 
-    /* Fundo “magnífico” com partículas */
-    .stars{
-      position:fixed; inset:0; pointer-events:none; opacity:.55;
-      background-image:
-        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(1px 1px at 120px 110px, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 220px 80px, rgba(255,255,255,.25), transparent 60%),
-        radial-gradient(2px 2px at 320px 160px, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 420px 40px, rgba(255,255,255,.28), transparent 60%),
-        radial-gradient(1px 1px at 520px 190px, rgba(255,255,255,.22), transparent 60%);
-      background-size: 600px 260px;
-      animation: drift 26s linear infinite;
-      filter: blur(.1px);
-    }
-    @keyframes drift{ from{transform:translateY(0)} to{transform:translateY(260px)} }
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 18px 40px}
 
-    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 40px}
     header{
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      margin-bottom:18px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:14px;
-      padding:10px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: 0 10px 24px rgba(0,0,0,.28);
-      backdrop-filter: blur(10px);
-    }
-    .brand img{
-      width:44px; height:44px; border-radius:12px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      padding:6px;
-    }
-    .brand .txt{line-height:1.1}
-    .brand .txt strong{font-size:14px; letter-spacing:.3px}
-    .brand .txt span{font-size:12px; color:var(--muted)}
-
-    .actions{display:flex; gap:10px; flex-wrap:wrap}
-    button{
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius: 12px;
-      cursor:pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.22);
-      transition:.18s transform, .18s background, .18s border;
-      backdrop-filter: blur(10px);
-      font-weight:600;
-    }
-    button:hover{transform:translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22)}
-    button.primary{
-      border:none;
-      background: linear-gradient(135deg, rgba(59,130,246,.95), rgba(34,197,94,.85));
-      box-shadow: 0 14px 30px rgba(0,0,0,.35);
-    }
-    button.danger{
-      border:1px solid rgba(239,68,68,.45);
-      background: rgba(239,68,68,.10);
+      display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:18px;border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.90));
+      border-radius: var(--radius); box-shadow: var(--shadow);
     }
 
-    .hero{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:14px;
-      margin: 10px 0 14px;
+    .brand{display:flex;align-items:center;gap:14px;min-width:240px}
+    .logo{
+      width:54px;height:54px;border-radius:16px;background:#fff;
+      border:1px solid var(--line);
+      display:grid;place-items:center;overflow:hidden;flex:0 0 auto;
     }
-    @media (max-width: 880px){
-      .hero{grid-template-columns: 1fr; }
+    .logo img{width:100%;height:100%;object-fit:cover}
+
+    .title{display:flex;flex-direction:column;line-height:1.15}
+    .title strong{font-size:18px; letter-spacing:.2px}
+    .title span{font-size:13px;color:var(--muted)}
+
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 12px;border:1px solid var(--line);
+      background: rgba(255,255,255,.75);
+      border-radius:999px;color:var(--muted);font-size:13px;white-space:nowrap;
+    }
+
+    .search{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 14px;border:1px solid var(--line);
+      background:#fff;border-radius:999px;min-width:280px;
+    }
+    .search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:14px}
+    .search input::placeholder{color:rgba(15,23,42,.45)}
+
+    @media (max-width: 920px){
+      .actions{justify-content:flex-start}
+      .search{min-width:0;width:100%}
+      header{flex-direction:column;align-items:stretch}
     }
 
     .card{
+      margin-top:16px;border:1px solid var(--line);
       background: var(--card);
-      border: 1px solid rgba(255,255,255,.12);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-    }
-
-    .title{
-      padding:18px 18px 10px;
-    }
-    .title h1{
-      margin:0;
-      font-size: clamp(22px, 3.2vw, 34px);
-      letter-spacing:.2px;
-    }
-    .title p{
-      margin:8px 0 0;
-      color:var(--muted);
-      line-height:1.35;
-      font-size:14px;
-    }
-
-    .metrics{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:10px;
-      padding: 14px 14px 16px;
-    }
-    @media (max-width: 520px){
-      .metrics{grid-template-columns: repeat(2, 1fr)}
-    }
-    .metric{
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 16px;
-      padding:12px 12px;
-      position:relative;
       overflow:hidden;
     }
-    .metric::before{
-      content:"";
-      position:absolute; inset:-40px -80px auto auto;
-      width:180px; height:180px;
-      background: radial-gradient(circle, rgba(59,130,246,.22), transparent 60%);
-      transform: rotate(10deg);
-    }
-    .metric b{display:block; font-size:18px; letter-spacing:.3px}
-    .metric span{display:block; font-size:12px; color:var(--muted); margin-top:2px}
 
-    .panel{
-      padding: 16px;
-    }
-
-    .targetBox{
-      padding:16px;
-      margin: 0 16px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-    }
-
-    .progressWrap{
-      display:flex; align-items:center; gap:10px; margin-bottom:10px;
-    }
-    .bar{
-      height:10px;
-      flex:1;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 999px;
-      overflow:hidden;
-    }
-    .bar > i{
-      display:block; height:100%;
-      width:0%;
-      background: linear-gradient(90deg, rgba(34,197,94,.9), rgba(59,130,246,.9));
-      border-radius: 999px;
-      transition: width .12s linear;
-    }
-    .pct{font-size:12px; color:var(--muted); min-width:48px; text-align:right}
-
-    .targetText{
-      font-family: var(--mono);
-      font-size: 14px;
-      line-height:1.65;
-      white-space: pre-wrap;
-      word-break: break-word;
-      letter-spacing:.2px;
+    .tabs{display:flex;gap:10px;padding:14px 14px 0;flex-wrap:wrap}
+    .tab{
+      border:1px solid var(--line);
+      background: rgba(15,23,42,.03);
+      color: var(--muted);
+      padding:10px 12px;border-radius:999px;cursor:pointer;
+      font-weight:800;font-size:13px;transition: transform .08s ease, background .2s ease, border-color .2s ease;
       user-select:none;
     }
+    .tab:hover{transform: translateY(-1px); background: rgba(15,23,42,.06)}
+    .tab.active{color: var(--text); border-color: rgba(22,163,74,.35); background: rgba(22,163,74,.12)}
 
-    .targetText .ok{color: rgba(34,197,94,.95)}
-    .targetText .bad{color: rgba(239,68,68,.95); text-decoration: underline; text-decoration-thickness: 2px}
-    .targetText .cur{
-      background: rgba(245,158,11,.20);
-      outline: 1px solid rgba(245,158,11,.55);
-      border-radius: 6px;
-      padding: 0 2px;
+    .panel{display:none;padding:14px 18px 18px}
+    .panel.active{display:block}
+
+    .hd{
+      padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-top:1px solid rgba(15,23,42,.06);
+      border-bottom:1px solid rgba(15,23,42,.06);
+      background: rgba(15,23,42,.02);
+    }
+    .hd h2{margin:0;font-size:15px;letter-spacing:.25px;display:flex;align-items:center;gap:10px}
+
+    .tag{
+      font-size:12px;padding:6px 10px;border-radius:999px;
+      border:1px solid var(--line);background:#fff;color:var(--muted);
+    }
+    .tag.ok{border-color: rgba(22,163,74,.35); background: rgba(22,163,74,.10); color:#0b3b1c}
+    .tag.warn{border-color: rgba(249,115,22,.35); background: rgba(249,115,22,.10); color:#5a2b00}
+
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+
+    .item{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      padding:12px 12px;border:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);border-radius: var(--radius2);
+    }
+    .item .left{display:flex;flex-direction:column;gap:4px;min-width:0}
+    .item .name{font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .item .meta{font-size:12px;color:var(--muted);line-height:1.25}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:9px 12px;border-radius:12px;border:1px solid rgba(15,23,42,.12);
+      background:#fff;color: var(--text);text-decoration:none;
+      font-weight:800;font-size:13px;white-space:nowrap;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+      flex:0 0 auto;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(15,23,42,.03)}
+    .btn.primary{border-color: rgba(22,163,74,.35); background: rgba(22,163,74,.10)}
+    .btn.orange{border-color: rgba(249,115,22,.35); background: rgba(249,115,22,.10)}
+    .btn.ghost{background: rgba(15,23,42,.02)}
+    .btn.danger{border-color: rgba(239,68,68,.30); background: rgba(239,68,68,.10)}
+
+    .note{
+      margin-top:12px;padding:12px 12px;border-radius: var(--radius2);
+      border:1px dashed rgba(15,23,42,.18);
+      background: rgba(15,23,42,.02);
+      color: var(--muted);font-size:12.5px;line-height:1.35;
     }
 
-    .inputWrap{
-      padding: 0 16px 18px;
+    /* Destaque (conteúdo renderizado) */
+    .article{
+      background:#fff;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius: var(--radius2);
+      padding:14px;
+      overflow-wrap:anywhere;
     }
-    textarea{
-      width:100%;
-      min-height: 160px;
-      resize: vertical;
-      padding: 14px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-      outline:none;
-      font-family: var(--mono);
-      font-size: 14px;
-      line-height: 1.65;
-      box-shadow: 0 14px 28px rgba(0,0,0,.35) inset;
-      transition: .18s border;
-    }
-    textarea:focus{border-color: rgba(59,130,246,.65)}
+    .article img{max-width:100%; border-radius:12px}
 
-    .hint{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border: 1px dashed rgba(255,255,255,.18);
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-      background: rgba(255,255,255,.03);
+    /* Modal editor */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background: rgba(2,6,23,.45);
+      display:none; align-items:center; justify-content:center;
+      padding:16px;
+      z-index:9999;
     }
-
-    .side{
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    .modal-backdrop.show{display:flex}
+    .modal{
+      width:min(980px, 100%);
+      background:#fff;
+      border-radius: 18px;
+      border:1px solid rgba(15,23,42,.12);
+      box-shadow: 0 30px 80px rgba(2,6,23,.25);
+      overflow:hidden;
     }
-    .badge{
+    .modal-hd{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:14px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-    }
-    .badge .left{display:flex; flex-direction:column; gap:2px}
-    .badge .left b{font-size:14px}
-    .badge .left span{font-size:12px; color:var(--muted)}
-    .pill{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      white-space:nowrap;
-    }
-    .pill.ok{border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.10)}
-    .pill.bad{border-color: rgba(239,68,68,.45); background: rgba(239,68,68,.10)}
-    .pill.warn{border-color: rgba(245,158,11,.45); background: rgba(245,158,11,.10)}
-
-    .footer{
-      margin-top:14px;
       padding:14px 16px;
-      color: rgba(255,255,255,.60);
-      font-size: 12px;
-      text-align:center;
+      border-bottom:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
     }
-    .glow{
-      position:fixed;
-      width: 520px; height: 520px;
-      left: -160px; top: -200px;
-      background: radial-gradient(circle, rgba(59,130,246,.30), transparent 60%);
-      filter: blur(10px);
-      pointer-events:none;
-      animation: float 10s ease-in-out infinite;
-      opacity:.9;
+    .modal-hd strong{font-size:14px}
+    .modal-bd{padding:14px 16px}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .row input{
+      padding:10px 12px;
+      border:1px solid rgba(15,23,42,.14);
+      border-radius:12px;
+      outline:0;
+      width:260px;
     }
-    .glow2{
-      position:fixed;
-      width: 520px; height: 520px;
-      right: -220px; bottom: -260px;
-      background: radial-gradient(circle, rgba(34,197,94,.22), transparent 60%);
-      filter: blur(12px);
-      pointer-events:none;
-      animation: float2 12s ease-in-out infinite;
-      opacity:.85;
-    }
-    @keyframes float{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(18px,24px)} }
-    @keyframes float2{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(-18px,-18px)} }
-
-    /* Modo foco */
-    body.focus header, body.focus .side, body.focus .footer{display:none}
-    body.focus .hero{grid-template-columns:1fr}
-    body.focus .wrap{max-width:1000px}
+    #editor{height:320px; background:#fff}
+    .status{font-size:12px; color: var(--muted)}
+    footer{margin-top:16px;padding:14px 16px;text-align:center;color: rgba(15,23,42,.55);font-size:12px}
+    .muted{color:var(--muted)}
   </style>
 </head>
 
 <body>
-  <div class="stars"></div>
-  <div class="glow"></div>
-  <div class="glow2"></div>
-
   <div class="wrap">
+
     <header>
       <div class="brand">
-        <img alt="Instituto ALFA" src="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png">
-        <div class="txt">
-          <strong>Instituto ALFA</strong><br>
-          <span>Treino de Digitação • Formando vencedores</span>
+        <div class="logo">
+          <img src="https://mickaelfelipe01-beep.github.io/Atividades/aulas-informatica-alpha/imagens/Design%20sem%20nome%20(8).png" alt="Instituto ALFA">
+        </div>
+        <div class="title">
+          <strong>Área do Aluno • Instituto ALFA</strong>
+          <span>Materiais e atividades do curso em um só lugar</span>
         </div>
       </div>
 
       <div class="actions">
-        <button class="primary" id="btnStart">Começar</button>
-        <button id="btnFocus">Modo Foco</button>
-        <button class="danger" id="btnReset">Reiniciar</button>
+        <div class="pill">📌 Salve este link nos favoritos</div>
+        <div class="search" title="Pesquisar na aba atual">
+          🔎 <input id="q" type="search" placeholder="Pesquisar nesta aba..." />
+        </div>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="card">
-        <div class="title">
-          <h1>Treino de Digitação</h1>
-          <p>
-            Digite o texto abaixo com calma e precisão. A página marca seus acertos e erros em tempo real.
-            <br>Objetivo: melhorar ritmo, coordenação e atenção. Velocidade vem depois.
-          </p>
-        </div>
+    <section class="card">
+      <div class="tabs" role="tablist" aria-label="Navegação">
+        <div class="tab" data-tab="atividades" role="tab" aria-selected="false">📝 Atividades</div>
+        <div class="tab" data-tab="pdfs" role="tab" aria-selected="false">📚 PDFs</div>
+        <div class="tab" data-tab="proximas" role="tab" aria-selected="false">📘 Próximas aulas</div>
 
-        <div class="metrics">
-          <div class="metric"><b id="mWpm">0</b><span>WPM (palavras/min)</span></div>
-          <div class="metric"><b id="mAcc">100%</b><span>Precisão</span></div>
-          <div class="metric"><b id="mErr">0</b><span>Erros</span></div>
-          <div class="metric"><b id="mTime">00:00</b><span>Tempo</span></div>
-        </div>
+        <!-- ✅ AGORA O DESTAQUE É O PRIMEIRO A ABRIR -->
+        <div class="tab active" data-tab="destaque" role="tab" aria-selected="true">⭐ Destaque</div>
 
-        <div class="targetBox">
-          <div class="progressWrap">
-            <div class="bar"><i id="barFill"></i></div>
-            <div class="pct" id="pct">0%</div>
+        <div class="tab" data-tab="avisos" role="tab" aria-selected="false">📢 Avisos</div>
+      </div>
+
+      <!-- HDs -->
+      <div class="hd" data-hd="atividades" style="display:none">
+        <h2>📝 Atividades da Semana</h2>
+        <span class="tag ok">Atualizado</span>
+      </div>
+
+      <div class="hd" data-hd="pdfs" style="display:none">
+        <h2>📚 PDFs das Aulas (Passadas e Materiais)</h2>
+        <span class="tag">Google Drive</span>
+      </div>
+
+      <div class="hd" data-hd="proximas" style="display:none">
+        <h2>📘 Próximas aulas</h2>
+        <span class="tag warn">Em breve</span>
+      </div>
+
+      <!-- ✅ HD DO DESTAQUE VISÍVEL AO INICIAR -->
+      <div class="hd" data-hd="destaque">
+        <h2>⭐ Destaque da Semana</h2>
+        <span class="tag">Artigo</span>
+      </div>
+
+      <div class="hd" data-hd="avisos" style="display:none">
+        <h2>📢 Avisos</h2>
+        <span class="tag">Recados</span>
+      </div>
+
+      <!-- PAINÉIS -->
+      <div class="panel" id="panel-atividades" data-panel="atividades">
+        <div class="list">
+          <div class="item" data-tags="atividade semana windows configurações aula 03">
+            <div class="left">
+              <div class="name">Atividade — Configurações do Windows</div>
+              <div class="meta">Baseada na Aula 03 • Prazo: até sexta-feira</div>
+            </div>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://SEU_LINK_DA_ATIVIDADE_AQUI">
+              Abrir atividade ↗
+            </a>
           </div>
-          <div class="targetText" id="target"></div>
+
+          <div class="item" data-tags="atividade internet navegador segurança">
+            <div class="left">
+              <div class="name">Atividade — Internet e Navegadores</div>
+              <div class="meta">Exercícios de fixação • Prazo: até sexta-feira</div>
+            </div>
+            <a class="btn orange" target="_blank" rel="noopener" href="https://SEU_LINK_DA_ATIVIDADE_AQUI">
+              Abrir atividade ↗
+            </a>
+          </div>
         </div>
 
-        <div class="inputWrap">
-          <textarea id="input" placeholder="Clique em “Começar” e digite aqui..."></textarea>
-          <div class="hint">
-            Dica: use todos os dedos, mantenha postura correta, e tente não olhar para o teclado. Se errar, continue — o importante é a constância.
-          </div>
+        <div class="note">
+          ✅ Se alguma atividade não abrir, me avise.<br>
+          📌 Faça com calma e revise antes de enviar.
         </div>
       </div>
 
-      <aside class="card side">
-        <div class="badge">
-          <div class="left">
-            <b>Status</b>
-            <span id="statusTxt">Pronto para iniciar</span>
+      <div class="panel" id="panel-pdfs" data-panel="pdfs">
+        <div class="list">
+          <div class="item" data-tags="pdf aula 01 introdução informática conceitos">
+            <div class="left">
+              <div class="name">Aula 01 — O que é Informática? (PDF)</div>
+              <div class="meta">Material de apoio • PDF no Google Drive</div>
+            </div>
+            <a class="btn primary" target="_blank" rel="noopener" href="https://drive.google.com/file/d/SEU_ID_AQUI/view?usp=sharing">
+              Abrir PDF ↗
+            </a>
           </div>
-          <div class="pill warn" id="statusPill">Aguardando</div>
         </div>
 
-        <div class="badge">
-          <div class="left">
-            <b>Meta da aula</b>
-            <span>Precisão acima de 90%</span>
+        <div class="note">
+          🔎 Use a busca no topo (ex.: “Aula 01”, “Windows”, “Internet”).<br>
+          ✅ PDFs ficam no Drive — link de visualização.
+        </div>
+      </div>
+
+      <div class="panel" id="panel-proximas" data-panel="proximas">
+        <div class="list">
+          <div class="item" data-tags="aula 05 pacote office word excel">
+            <div class="left">
+              <div class="name">Aula 05 — Pacote Office (Word/Excel)</div>
+              <div class="meta">Material será liberado após a aula</div>
+            </div>
+            <a class="btn ghost" href="#" onclick="return false;">Em breve</a>
           </div>
-          <div class="pill ok">Boa!</div>
         </div>
 
-        <div class="badge">
-          <div class="left">
-            <b>Regras do treino</b>
-            <span>Sem pressa. Sem copiar/colar.</span>
-          </div>
-          <div class="pill">Disciplina</div>
+        <div class="note">
+          📌 Quando o PDF estiver pronto, troque “Em breve” por “Abrir PDF”.
+        </div>
+      </div>
+
+      <!-- ⭐ DESTAQUE -->
+      <div class="panel active" id="panel-destaque" data-panel="destaque">
+        <div class="row" style="justify-content:space-between">
+          <div class="status" id="destaqueStatus">Carregando o destaque…</div>
+          <button class="btn primary" id="btnEditarDestaque" type="button" title="Editar (professor)">
+            ✏️ Editar
+          </button>
         </div>
 
-        <div class="badge">
-          <div class="left">
-            <b>Quando terminar</b>
-            <span>Mostre seu resultado ao professor</span>
-          </div>
-          <div class="pill">ALFA</div>
+        <div style="height:10px"></div>
+
+        <div class="article" id="destaqueView">
+          <h2>Destaque da Semana</h2>
+          <p>Carregando…</p>
         </div>
-      </aside>
+
+        <div class="note">
+          👨‍🏫 Professor: clique em <b>Editar</b>, digite a senha e atualize o artigo sem mexer no código.<br>
+          🖼️ Imagens: você pode colar prints ou inserir imagens por link.
+        </div>
+      </div>
+
+      <div class="panel" id="panel-avisos" data-panel="avisos">
+        <div class="note" style="margin-top:0">
+          📌 <strong>Recado da semana:</strong><br>
+          - Atividade disponível até <strong>sexta-feira</strong>.<br>
+          - Dúvidas: mande no grupo.<br><br>
+          ✅ Antes de dizer “perdi o link”, confira esta página 😄
+        </div>
+      </div>
+
     </section>
 
-    <div class="footer">
-      © Instituto ALFA • Treino de Digitação — desenvolvido para prática e evolução diária.
+    <footer>
+      Instituto ALFA • Área do Aluno — <span class="muted">Formando vencedores!</span>
+    </footer>
+
+  </div>
+
+  <!-- Modal Editor -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Editor do Destaque">
+      <div class="modal-hd">
+        <strong>Editar Destaque da Semana</strong>
+        <button class="btn danger" id="btnFecharModal" type="button">Fechar</button>
+      </div>
+      <div class="modal-bd">
+        <div class="row">
+          <input id="pass" type="password" placeholder="Senha do professor" />
+          <button class="btn primary" id="btnSalvarDestaque" type="button">💾 Salvar</button>
+          <span class="status" id="saveStatus">—</span>
+        </div>
+        <div style="height:12px"></div>
+        <div id="editor"></div>
+        <div class="note">
+          ⚠️ Evite colar imagens gigantes (pode ficar pesado). Se preferir, use imagem por link.
+        </div>
+      </div>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
   <script>
-    // ✅ TEXTO DO TREINO (edite aqui quando quiser)
-    const TARGET_TEXT =
-`No Instituto ALFA, acreditamos que todo grande profissional começa com uma boa base.
-A digitação é uma habilidade essencial no mundo moderno, presente em praticamente todas as áreas da tecnologia, do estudo e do trabalho.
+    // ✅ URL do Web App do Apps Script:
+    const DESTAQUE_API = "https://script.google.com/macros/s/AKfycbxxUkPoPIJ0YMd6C9W-lW-A17kqTWgapFud-dgX627s86h2e8EImepvjAu-9LUBUic3SQ/exec";
 
-Quando você digita com atenção, calma e postura correta, seu cérebro aprende a organizar ideias, melhorar a concentração e ganhar agilidade.
-Não é sobre ser rápido no início, mas sim ser preciso e constante.
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    const panels = Array.from(document.querySelectorAll('.panel'));
+    const headers = Array.from(document.querySelectorAll('.hd'));
+    const q = document.getElementById('q');
 
-Enquanto você digita este texto, lembre-se de manter os olhos na tela, as mãos posicionadas corretamente no teclado e a coluna ereta.
-Respire fundo, vá com calma e confie no processo.
+    function norm(s){
+      return (s||"")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
 
-Errar faz parte do aprendizado.
-Cada palavra digitada é um passo a mais na sua evolução.
+    function setActive(tabName){
+      tabs.forEach(t=>{
+        const active = t.dataset.tab === tabName;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
 
-Aqui no Instituto ALFA, formamos mais do que alunos.
-Formamos vencedores.
+      panels.forEach(p=>{
+        p.classList.toggle('active', p.dataset.panel === tabName);
+      });
 
-Continue praticando, continue evoluindo e nunca duvide do seu potencial.`;
+      headers.forEach(h=>{
+        h.style.display = (h.dataset.hd === tabName) ? '' : 'none';
+      });
 
-    const elTarget = document.getElementById("target");
-    const elInput  = document.getElementById("input");
+      q.value = "";
+      applyFilter();
 
-    const mWpm  = document.getElementById("mWpm");
-    const mAcc  = document.getElementById("mAcc");
-    const mErr  = document.getElementById("mErr");
-    const mTime = document.getElementById("mTime");
+      if (tabName === "destaque") loadDestaque();
+    }
 
-    const statusTxt  = document.getElementById("statusTxt");
-    const statusPill = document.getElementById("statusPill");
+    function applyFilter(){
+      const term = norm(q.value);
+      const activePanel = panels.find(p => p.classList.contains('active'));
+      if(!activePanel) return;
 
-    const barFill = document.getElementById("barFill");
-    const pct = document.getElementById("pct");
+      const items = Array.from(activePanel.querySelectorAll('.item'));
+      items.forEach(el=>{
+        const tags = norm(el.getAttribute('data-tags') || "");
+        const text = norm(el.innerText || "");
+        const ok = !term || tags.includes(term) || text.includes(term);
+        el.style.display = ok ? "" : "none";
+      });
+    }
 
-    const btnStart = document.getElementById("btnStart");
-    const btnReset = document.getElementById("btnReset");
-    const btnFocus = document.getElementById("btnFocus");
+    tabs.forEach(t=> t.addEventListener('click', ()=> setActive(t.dataset.tab)));
+    q.addEventListener('input', applyFilter);
+    applyFilter();
 
-    let started = false;
-    let t0 = 0;
-    let timer = null;
+    // -------- Destaque da semana (viewer + editor) --------
+    const destaqueView = document.getElementById("destaqueView");
+    const destaqueStatus = document.getElementById("destaqueStatus");
+    const btnEditar = document.getElementById("btnEditarDestaque");
 
-    // Render inicial
-    function renderTarget(user = "") {
-      const t = TARGET_TEXT;
-      let html = "";
-      let errors = 0;
-      let correct = 0;
+    const backdrop = document.getElementById("modalBackdrop");
+    const btnFecharModal = document.getElementById("btnFecharModal");
+    const btnSalvar = document.getElementById("btnSalvarDestaque");
+    const pass = document.getElementById("pass");
+    const saveStatus = document.getElementById("saveStatus");
 
-      for (let i = 0; i < t.length; i++) {
-        const expected = t[i];
-        const typed = user[i];
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'align': [] }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      }
+    });
 
-        if (typed == null) {
-          // cursor no próximo caractere
-          if (i === user.length) html += `<span class="cur">${escapeHtml(expected)}</span>`;
-          else html += escapeHtml(expected);
-          continue;
+    let lastLoadedHtml = "";
+
+    async function loadDestaque(){
+      try{
+        destaqueStatus.textContent = "Carregando o destaque…";
+        const url = DESTAQUE_API + "?action=get&ts=" + Date.now();
+        const res = await fetch(url, { method: "GET" });
+
+        // Se o browser bloquear por CORS, cai no catch
+        const data = await res.json();
+
+        if(!data.ok) throw new Error(data.error || "Falha ao carregar.");
+
+        lastLoadedHtml = data.html || "";
+        destaqueView.innerHTML = lastLoadedHtml || "<h2>Destaque da Semana</h2><p>Nenhum conteúdo ainda.</p>";
+        destaqueStatus.textContent = "✅ Destaque carregado.";
+      }catch(err){
+        destaqueStatus.textContent = "⚠️ Não foi possível carregar o destaque. Verifique a URL do Web App.";
+        console.error(err);
+      }
+    }
+
+    function openModal(){
+      quill.root.innerHTML = lastLoadedHtml || "<h2>Destaque da Semana</h2><p>Escreva aqui…</p>";
+      saveStatus.textContent = "—";
+      pass.value = "";
+      backdrop.classList.add("show");
+      backdrop.setAttribute("aria-hidden","false");
+      setTimeout(()=> pass.focus(), 50);
+    }
+
+    function closeModal(){
+      backdrop.classList.remove("show");
+      backdrop.setAttribute("aria-hidden","true");
+    }
+
+    btnEditar.addEventListener("click", openModal);
+    btnFecharModal.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e)=>{ if(e.target === backdrop) closeModal(); });
+
+    btnSalvar.addEventListener("click", async ()=>{
+      try{
+        saveStatus.textContent = "Salvando…";
+        const html = quill.root.innerHTML;
+        const password = (pass.value || "").trim();
+
+        if (!password) {
+          saveStatus.textContent = "❌ Digite a senha.";
+          return;
         }
 
-        if (typed === expected) {
-          html += `<span class="ok">${escapeHtml(expected)}</span>`;
-          correct++;
-        } else {
-          html += `<span class="bad">${escapeHtml(expected)}</span>`;
-          errors++;
-        }
+        const form = new URLSearchParams();
+        form.set("action", "save");
+        form.set("password", password);
+        form.set("html", html);
+
+        // ✅ No GitHub Pages, o navegador pode bloquear leitura da resposta (CORS).
+        // Então enviamos no-cors e confirmamos recarregando o conteúdo.
+        await fetch(DESTAQUE_API, {
+          method: "POST",
+          body: form,
+          mode: "no-cors"
+        });
+
+        saveStatus.textContent = "✅ Salvo! Atualizando…";
+        await loadDestaque();
+        saveStatus.textContent = "✅ Salvo com sucesso!";
+
+        setTimeout(closeModal, 600);
+      }catch(err){
+        saveStatus.textContent = "❌ Erro ao salvar. Tente novamente.";
+        console.error(err);
       }
-
-      elTarget.innerHTML = html;
-
-      const totalTyped = user.length;
-      const totalCompared = Math.min(totalTyped, t.length);
-      const acc = totalCompared > 0 ? (correct / totalCompared) : 1;
-
-      // progresso
-      const progress = Math.min(totalTyped / t.length, 1);
-      barFill.style.width = (progress * 100).toFixed(1) + "%";
-      pct.textContent = Math.round(progress * 100) + "%";
-
-      // métricas
-      mErr.textContent = errors;
-
-      const elapsedMin = started ? ((Date.now() - t0) / 60000) : 0;
-      const words = totalTyped / 5; // padrão WPM (5 chars = 1 palavra)
-      const wpm = (elapsedMin > 0) ? Math.round(words / elapsedMin) : 0;
-
-      mWpm.textContent = wpm;
-      mAcc.textContent = Math.round(acc * 100) + "%";
-
-      // status
-      if (!started) {
-        setStatus("Pronto para iniciar", "warn");
-      } else if (progress >= 1) {
-        setStatus(acc >= 0.90 ? "Concluído! Excelente trabalho." : "Concluído! Agora busque mais precisão.", acc >= 0.90 ? "ok" : "warn");
-        stopTimer();
-      } else {
-        if (errors === 0 && totalTyped > 0) setStatus("Perfeito até aqui! Continue.", "ok");
-        else if (errors > 0) setStatus("Sem desespero: corrija com calma.", "warn");
-        else setStatus("Digite com calma e atenção.", "warn");
-      }
-    }
-
-    function setStatus(text, kind){
-      statusTxt.textContent = text;
-      statusPill.className = "pill " + (kind || "");
-      statusPill.textContent = (kind === "ok") ? "Em dia" : (kind === "bad") ? "Atenção" : "Treino";
-    }
-
-    function escapeHtml(s){
-      return (s+"")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function formatTime(ms){
-      const total = Math.max(0, Math.floor(ms/1000));
-      const mm = String(Math.floor(total/60)).padStart(2,"0");
-      const ss = String(total%60).padStart(2,"0");
-      return `${mm}:${ss}`;
-    }
-
-    function startTimer(){
-      stopTimer();
-      timer = setInterval(()=>{
-        if (!started) return;
-        mTime.textContent = formatTime(Date.now() - t0);
-      }, 250);
-    }
-    function stopTimer(){
-      if (timer) clearInterval(timer);
-      timer = null;
-    }
-
-    btnStart.addEventListener("click", ()=>{
-      if (started) return;
-      started = true;
-      t0 = Date.now();
-      mTime.textContent = "00:00";
-      startTimer();
-      elInput.disabled = false;
-      elInput.focus();
-      setStatus("Treino iniciado. Vá com calma.", "warn");
     });
 
-    btnReset.addEventListener("click", ()=>{
-      started = false;
-      stopTimer();
-      elInput.value = "";
-      elInput.disabled = true;
-      mTime.textContent = "00:00";
-      mWpm.textContent = "0";
-      mAcc.textContent = "100%";
-      mErr.textContent = "0";
-      barFill.style.width = "0%";
-      pct.textContent = "0%";
-      renderTarget("");
-      setStatus("Pronto para iniciar", "warn");
-    });
+    // ✅ FORÇA A ABRIR NO DESTAQUE AO INICIAR (mesmo se alguém mexer no HTML)
+    setActive("destaque");
 
-    btnFocus.addEventListener("click", ()=>{
-      document.body.classList.toggle("focus");
-      btnFocus.textContent = document.body.classList.contains("focus") ? "Sair do Foco" : "Modo Foco";
-      elInput.focus();
-    });
-
-    elInput.addEventListener("input", ()=>{
-      if (!started) return;
-      const typed = elInput.value;
-      // bloqueia digitar além do tamanho do texto (opcional)
-      if (typed.length > TARGET_TEXT.length) {
-        elInput.value = typed.slice(0, TARGET_TEXT.length);
-      }
-      renderTarget(elInput.value);
-    });
-
-    // inicial
-    elInput.disabled = true;
-    renderTarget("");
+    // carrega 1x (extra — mantém seu comportamento)
+    loadDestaque();
   </script>
 </body>
 </html>
