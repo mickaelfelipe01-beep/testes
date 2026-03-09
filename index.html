@@ -1081,25 +1081,22 @@
       });
     }
 
-    function updateInstallUIByTab(tabName){
-      if(isStandalone()){
-        showInstallButton(false);
-        showInstallHelp(false);
-        return;
-      }
-      if(tabName !== "destaque"){
-        showInstallButton(false);
-        showInstallHelp(false);
-        return;
-      }
-      if(deferredPrompt){
-        showInstallButton(true);
-        showInstallHelp(false);
-        return;
-      }
-      showInstallButton(false);
-      showInstallHelp(true);
-    }
+function updateInstallUIByTab(tabName){
+  if(isStandalone()){
+    showInstallButton(false);
+    showInstallHelp(false);
+    return;
+  }
+
+  if(tabName !== "destaque"){
+    showInstallButton(false);
+    showInstallHelp(false);
+    return;
+  }
+
+  showInstallButton(true);
+  showInstallHelp(false);
+}
 
     const tabs = Array.from(document.querySelectorAll('.tab'));
     const panels = Array.from(document.querySelectorAll('.panel'));
