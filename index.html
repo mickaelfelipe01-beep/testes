@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2563eb">
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Área do Aluno • Instituto ALFA</title>
@@ -17,9 +20,9 @@
       --muted:#475569;
       --muted2:#64748b;
 
-      /* Branding */
-      --brand:#2563eb;        /* azul (principal) */
+      --brand:#2563eb;
       --brandHover:#1d4ed8;
+
       --ok:#22c55e;
       --warn:#f59e0b;
       --danger:#ef4444;
@@ -31,21 +34,66 @@
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
+    html[data-theme="dark"]{
+      --bg:#0b1220;
+      --card:#0f172a;
+      --line:rgba(255,255,255,.10);
+      --text:#e5e7eb;
+      --muted:rgba(229,231,235,.72);
+      --muted2:rgba(229,231,235,.60);
+
+      --brand:#60a5fa;
+      --brandHover:#3b82f6;
+
+      --soft:rgba(255,255,255,.06);
+      --shadow: 0 18px 50px rgba(0,0,0,.38);
+    }
+
     *{box-sizing:border-box}
     html,body{height:100%}
+
     body{
       margin:0;
       font-family:var(--font);
       color:var(--text);
-      background:
-        radial-gradient(900px 520px at 15% 0%, rgba(37,99,235,.10), transparent 55%),
-        radial-gradient(900px 520px at 95% 0%, rgba(34,197,94,.08), transparent 55%),
-        var(--bg);
+      background: var(--bg);
+      position:relative;
     }
 
-    .wrap{max-width:1100px;margin:0 auto;padding:26px 16px 40px}
+    body::after{
+      content:"";
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      height:180px;
+      pointer-events:none;
+      z-index:0;
+      background: linear-gradient(
+        to top,
+        rgba(37,99,235,.14),
+        rgba(37,99,235,.06),
+        transparent
+      );
+    }
 
-    /* HEADER */
+    html[data-theme="dark"] body::after{
+      background: linear-gradient(
+        to top,
+        rgba(96,165,250,.25),
+        rgba(96,165,250,.10),
+        transparent
+      );
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 16px 40px;
+      position:relative;
+      z-index:1;
+    }
+
     header{
       display:flex;align-items:center;justify-content:space-between;gap:14px;
       padding:18px 18px;
@@ -54,6 +102,10 @@
       border-radius:var(--radius);
       box-shadow:var(--shadow);
     }
+    html[data-theme="dark"] header{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+
     .brand{display:flex;align-items:center;gap:14px;min-width:260px}
     .logo{
       width:56px;height:56px;border-radius:16px;
@@ -62,6 +114,7 @@
       display:grid;place-items:center;overflow:hidden;flex:0 0 auto;
     }
     .logo img{width:100%;height:100%;object-fit:cover}
+
     .title{display:flex;flex-direction:column;line-height:1.15;min-width:0}
     .title strong{
       font-size:18px;letter-spacing:.2px;
@@ -87,6 +140,20 @@
       cursor:pointer;
     }
 
+    .themeBtn{
+      border:0;
+      background:transparent;
+      color:var(--text);
+      font-weight:900;
+      cursor:pointer;
+      padding:0;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+    }
+    .themeIcon{font-size:14px; line-height:1}
+    .themeLabel{font-size:13px}
+
     .search{
       display:flex;align-items:center;gap:10px;
       padding:10px 14px;
@@ -96,6 +163,7 @@
       min-width:320px;
       box-shadow: 0 8px 20px rgba(2,6,23,.04);
     }
+    html[data-theme="dark"] .search{background: rgba(0,0,0,.20)}
     .search input{
       width:100%;
       border:0;outline:0;
@@ -104,6 +172,7 @@
       font-size:14px;
     }
     .search input::placeholder{color:#94a3b8}
+    html[data-theme="dark"] .search input::placeholder{color:rgba(229,231,235,.45)}
 
     @media (max-width: 980px){
       header{flex-direction:column;align-items:stretch}
@@ -111,7 +180,18 @@
       .search{min-width:0;width:100%}
     }
 
-    /* CARD */
+    @media (max-width: 600px){
+      .brand{min-width:0;}
+      .title strong{
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        font-size: 16px;
+        line-height: 1.2;
+      }
+      .title span{font-size:12px;}
+    }
+
     .card{
       margin-top:16px;
       border:1px solid var(--line);
@@ -120,8 +200,8 @@
       box-shadow:var(--shadow);
       overflow:hidden;
     }
+    html[data-theme="dark"] .card{background: rgba(255,255,255,.04)}
 
-    /* TOPBAR (abas + dica) */
     .cardTop{
       padding:14px 14px 10px;
       display:flex;
@@ -131,17 +211,15 @@
       border-bottom:1px solid var(--line);
       background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
     }
-    .cardTop .hint{
-      font-size:13px;
-      color:var(--muted2);
-      white-space:nowrap;
+    html[data-theme="dark"] .cardTop{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
     }
+    .cardTop .hint{font-size:13px;color:var(--muted2);white-space:nowrap}
     @media (max-width: 760px){
       .cardTop{flex-direction:column;align-items:flex-start}
       .cardTop .hint{white-space:normal}
     }
 
-    /* ABAS (segmented control) */
     .tabs{
       display:inline-flex;
       padding:6px;
@@ -151,7 +229,12 @@
       gap:6px;
       flex-wrap:wrap;
     }
+
     .tab{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
       padding:10px 12px;
       border-radius:999px;
       cursor:pointer;
@@ -163,6 +246,7 @@
       transition: background .15s ease, transform .08s ease, border-color .15s ease;
       white-space:nowrap;
       background:transparent;
+      text-align:center;
     }
     .tab:hover{transform: translateY(-1px)}
     .tab.active{
@@ -171,8 +255,12 @@
       border-color: rgba(37,99,235,.22);
       box-shadow: 0 10px 18px rgba(2,6,23,.06);
     }
+    html[data-theme="dark"] .tab.active{
+      background: rgba(0,0,0,.25);
+      border-color: rgba(96,165,250,.28);
+      box-shadow: 0 10px 18px rgba(0,0,0,.25);
+    }
 
-    /* HEADER DO PAINEL */
     .hd{
       padding:14px 18px;
       display:flex;
@@ -182,6 +270,7 @@
       border-bottom:1px solid var(--line);
       background:#fff;
     }
+    html[data-theme="dark"] .hd{background: rgba(0,0,0,.18)}
     .hd h2{
       margin:0;
       font-size:15px;
@@ -202,36 +291,135 @@
     }
     .tag.ok{border-color: rgba(34,197,94,.25); background: rgba(34,197,94,.10); color:#166534}
     .tag.warn{border-color: rgba(245,158,11,.28); background: rgba(245,158,11,.12); color:#92400e}
+    html[data-theme="dark"] .tag.ok{color:#bff5cf}
+    html[data-theme="dark"] .tag.warn{color:#ffe2c8}
 
-    .panel{display:none;padding:16px 18px 18px}
+    .panel{
+      display:none;
+      padding:16px 18px 18px;
+      position:relative;
+      overflow:hidden;
+      background:transparent;
+    }
     .panel.active{display:block}
+    .panel::before{content:none;}
 
-    /* LISTA */
-    .list{display:flex;flex-direction:column;gap:12px}
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      position:relative;
+      z-index:2;
+    }
 
     .item{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
-      padding:14px 14px;
+      padding:14px 14px 14px 0;
       border:1px solid var(--line);
       background:#fff;
       border-radius:var(--radius2);
-      box-shadow: 0 10px 18px rgba(2,6,23,.04);
+      box-shadow: 0 6px 14px rgba(2,6,23,.04);
+      position:relative;
+      overflow:hidden;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
-    .item .left{display:flex;flex-direction:column;gap:6px;min-width:0}
+    html[data-theme="dark"] .item{
+      background: rgba(0,0,0,.18);
+      box-shadow: 0 6px 14px rgba(0,0,0,.16);
+    }
+    .item::before{content:none;}
+
+    .itemAccent{
+      align-self:stretch;
+      width:6px;
+      border-radius:0 10px 10px 0;
+      flex:0 0 6px;
+      background: rgba(37,99,235,.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .item.type-atividades .itemAccent{
+      background: linear-gradient(180deg, rgba(34,197,94,.95), rgba(22,163,74,.75));
+    }
+    .item.type-pdfs .itemAccent{
+      background: linear-gradient(180deg, rgba(37,99,235,.95), rgba(59,130,246,.78));
+    }
+    .item.type-proximas .itemAccent{
+      background: linear-gradient(180deg, rgba(245,158,11,.95), rgba(217,119,6,.78));
+    }
+
+    .itemMain{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      min-width:0;
+      flex:1 1 auto;
+      padding-left:14px;
+    }
+
+    .itemIcon{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      flex:0 0 40px;
+      border:1px solid var(--line);
+      background: var(--soft);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.45);
+    }
+    .item.type-atividades .itemIcon{
+      background: rgba(34,197,94,.10);
+      border-color: rgba(34,197,94,.22);
+    }
+    .item.type-pdfs .itemIcon{
+      background: rgba(37,99,235,.10);
+      border-color: rgba(37,99,235,.22);
+    }
+    .item.type-proximas .itemIcon{
+      background: rgba(245,158,11,.12);
+      border-color: rgba(245,158,11,.24);
+    }
+
+    .item .left{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+      flex:1 1 auto;
+      padding-top:1px;
+    }
+
     .item .name{
       font-weight:900;
-      font-size:14px;
+      font-size:15px;
+      letter-spacing:.1px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
       max-width: 720px;
+      line-height:1.25;
     }
-    .item .meta{font-size:12.5px;color:var(--muted2);line-height:1.25}
 
-    /* BOTÕES */
+    .item .meta{
+      font-size:12.5px;
+      color:var(--muted2);
+      line-height:1.35;
+    }
+
+    .itemActions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex:0 0 auto;
+      padding-right:14px;
+    }
+
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:8px;
       padding:10px 12px;
@@ -246,13 +434,22 @@
       transition: transform .08s ease, background .15s ease, border-color .15s ease;
       flex:0 0 auto;
       cursor:pointer;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     .btn:hover{transform: translateY(-1px); background:#fff; border-color: rgba(37,99,235,.20)}
+    html[data-theme="dark"] .btn:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(96,165,250,.22);
+    }
+
     .btn.primary{
       background: var(--brand);
       border-color: rgba(37,99,235,.35);
       color:#fff;
-      box-shadow: 0 16px 26px rgba(37,99,235,.22);
+      box-shadow: 0 4px 10px rgba(37,99,235,.10);
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
     .btn.primary:hover{background:var(--brandHover)}
     .btn.orange{
@@ -261,10 +458,44 @@
       color:#92400e;
     }
     .btn.ghost{background: transparent}
+    html[data-theme="dark"] .btn.ghost{background: rgba(255,255,255,.03)}
     .btn.danger{
       background: rgba(239,68,68,.10);
       border-color: rgba(239,68,68,.28);
       color:#991b1b;
+    }
+    html[data-theme="dark"] .btn.danger{color:#fecaca}
+
+    .hd [data-manage].btn{
+      padding:8px 10px;
+      font-size:12px;
+      border-radius:10px;
+    }
+
+    .btn.install{
+      background: rgba(37,99,235,.10);
+      border-color: rgba(37,99,235,.28);
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn.install:hover{
+      background: rgba(37,99,235,.14);
+      border-color: rgba(37,99,235,.38);
+    }
+    .btn.install::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(400px 120px at 20% 50%, rgba(37,99,235,.18), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    html[data-theme="dark"] .btn.install{
+      background: rgba(96,165,250,.10);
+      border-color: rgba(96,165,250,.28);
+    }
+    html[data-theme="dark"] .btn.install::after{
+      background: radial-gradient(400px 120px at 20% 50%, rgba(96,165,250,.20), transparent 60%);
     }
 
     .note{
@@ -277,8 +508,12 @@
       font-size:12.5px;
       line-height:1.35;
     }
+    html[data-theme="dark"] .note{
+      background: rgba(0,0,0,.18);
+      border-color: rgba(255,255,255,.14);
+      color: var(--muted);
+    }
 
-    /* DESTAQUE */
     .article{
       background:#fff;
       border:1px solid var(--line);
@@ -287,9 +522,12 @@
       overflow-wrap:anywhere;
       box-shadow: 0 10px 18px rgba(2,6,23,.04);
     }
+    html[data-theme="dark"] .article{
+      background: rgba(0,0,0,.18);
+      box-shadow: 0 10px 18px rgba(0,0,0,.22);
+    }
     .article img{max-width:100%; border-radius:12px}
 
-    /* MODAIS */
     .modal-backdrop{
       position:fixed; inset:0;
       background: rgba(2,6,23,.45);
@@ -302,15 +540,15 @@
       width:min(980px, 100%);
       background:#fff;
       border-radius: 18px;
-      border:1px solid var(--line);
+      border:1px solid rgba(15,23,42,.12);
       box-shadow: 0 30px 80px rgba(2,6,23,.25);
       overflow:hidden;
     }
     .modal-hd{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       padding:14px 16px;
-      border-bottom:1px solid var(--line);
-      background: var(--soft);
+      border-bottom:1px solid rgba(15,23,42,.10);
+      background: rgba(15,23,42,.02);
     }
     .modal-hd strong{font-size:14px}
     .modal-bd{padding:14px 16px}
@@ -328,28 +566,26 @@
     #editor{height:320px; background:#fff}
     .status{font-size:12px; color: var(--muted2)}
 
-    /* TABELA GERENCIAR */
     .table{
       width:100%;
       border-collapse:separate;
       border-spacing:0;
-      border:1px solid var(--line);
+      border:1px solid rgba(15,23,42,.12);
       border-radius:14px;
       overflow:hidden;
       background:#fff;
-      box-shadow: 0 10px 18px rgba(2,6,23,.04);
     }
     .table th,.table td{
-      border-bottom:1px solid var(--line);
+      border-bottom:1px solid rgba(15,23,42,.10);
       padding:10px;
       font-size:12.5px;
       vertical-align:top;
     }
     .table th{
-      background: var(--soft);
+      background: rgba(15,23,42,.02);
       text-align:left;
       font-size:12px;
-      color: var(--muted);
+      color: rgba(15,23,42,.7);
     }
     .table td input, .table td select{
       width:100%;
@@ -370,12 +606,113 @@
       font-size:12px;
     }
     .muted{color:var(--muted2)}
+
+    @media (max-width: 760px){
+      .item{
+        align-items:flex-start;
+      }
+      .itemActions{
+        padding-right:14px;
+        padding-left:14px;
+        width:100%;
+        justify-content:flex-start;
+      }
+      .item{
+        flex-direction:column;
+        gap:12px;
+        padding:14px 14px 14px 0;
+      }
+      .itemMain{
+        width:100%;
+      }
+      .item .name{
+        white-space:normal;
+        overflow:visible;
+        text-overflow:clip;
+      }
+      .tab:hover{ transform:none; }
+    }
+
+    @media (max-width: 520px){
+      .cardTop{
+        justify-content: center;
+        gap: 10px;
+        align-items: stretch;
+      }
+      .cardTop .hint{
+        width:100%;
+        text-align:center;
+        white-space:normal;
+      }
+
+      .tabs{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+        width:100%;
+        padding:10px;
+        border-radius:22px;
+        justify-items:stretch;
+        align-items:stretch;
+      }
+
+      .tab{
+        width:100%;
+        padding:12px 10px;
+        white-space:nowrap;
+      }
+
+      .tab[data-tab="destaque"]{
+        grid-column: 1 / -1;
+        grid-row: 3;
+      }
+
+      .tab[data-tab="atividades"]{ grid-column:1; grid-row:1; }
+      .tab[data-tab="pdfs"]{       grid-column:2; grid-row:1; }
+      .tab[data-tab="proximas"]{   grid-column:1; grid-row:2; }
+      .tab[data-tab="avisos"]{     grid-column:2; grid-row:2; }
+
+      .tab:hover{ transform:none; }
+    }
+
+    #panel-destaque .article{
+      border-color: rgba(37,99,235,.25);
+      box-shadow: 0 10px 18px rgba(2,6,23,.04), 0 0 0 3px rgba(37,99,235,.08);
+    }
+    #panel-destaque .tag{
+      border-color: rgba(245,158,11,.35);
+      background: rgba(245,158,11,.12);
+    }
+    @keyframes alfaPulse{
+      0%,100%{ box-shadow: 0 10px 18px rgba(2,6,23,.04), 0 0 0 3px rgba(37,99,235,.08); }
+      50%{    box-shadow: 0 10px 18px rgba(2,6,23,.04), 0 0 0 6px rgba(37,99,235,.12); }
+    }
+    #panel-destaque .article{ animation: alfaPulse 3.2s ease-in-out infinite; }
+
+    .dot{
+      display:inline-block;
+      width:8px;height:8px;
+      border-radius:999px;
+      margin-left:6px;
+      background:#ef4444;
+      box-shadow:0 0 0 3px rgba(239,68,68,.18);
+      vertical-align:middle;
+    }
+    .dot.hide{ display:none; }
+
+    .card,
+    .panel,
+    .list,
+    .item,
+    .btn{
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-
     <header>
       <div class="brand">
         <div class="logo">
@@ -396,6 +733,13 @@
           </select>
         </div>
 
+        <div class="pill" title="Tema claro/escuro">
+          <button class="themeBtn" id="themeToggle" type="button" aria-label="Alternar tema">
+            <span class="themeIcon" aria-hidden="true">☀️</span>
+            <span class="themeLabel">Claro</span>
+          </button>
+        </div>
+
         <div class="pill">📌 Salve este link nos favoritos</div>
 
         <div class="search" title="Pesquisar na aba atual">
@@ -405,16 +749,16 @@
     </header>
 
     <section class="card">
-      <!-- só estrutura visual; mantém tabs/panels/ids/classes pro JS -->
       <div class="cardTop">
         <div class="tabs" role="tablist" aria-label="Navegação">
           <div class="tab" data-tab="atividades" role="tab" aria-selected="false">📝 Atividades</div>
           <div class="tab" data-tab="pdfs" role="tab" aria-selected="false">📚 PDFs</div>
           <div class="tab" data-tab="proximas" role="tab" aria-selected="false">📘 Próximas aulas</div>
           <div class="tab active" data-tab="destaque" role="tab" aria-selected="true">⭐ Destaque</div>
-          <div class="tab" data-tab="avisos" role="tab" aria-selected="false">📢 Avisos</div>
+          <div class="tab" data-tab="avisos" role="tab" aria-selected="false">
+            📢 Avisos <span class="dot" id="avisosDot" aria-hidden="true"></span>
+          </div>
         </div>
-
         <div class="hint">🔎 A busca filtra apenas a aba atual</div>
       </div>
 
@@ -478,7 +822,20 @@
       <div class="panel active" id="panel-destaque" data-panel="destaque">
         <div class="row" style="justify-content:space-between">
           <div class="status" id="destaqueStatus">Carregando o destaque…</div>
-          <button class="btn primary" id="btnEditarDestaque" type="button" title="Editar (professor)">✏️ Editar</button>
+
+          <div class="row" style="justify-content:flex-end">
+            <button class="btn install" id="btnInstall" type="button" style="display:none" title="Instalar o app no celular">
+              ⬇️ Instalar App
+            </button>
+
+            <button class="btn primary" id="btnEditarDestaque" type="button" title="Editar (professor)">
+              ✏️ Editar
+            </button>
+          </div>
+        </div>
+
+        <div class="note" id="installHelp" style="display:none;margin-top:10px">
+          📌 Para instalar: abra este link no <b>Chrome</b> (Android) ou <b>Safari</b> (iPhone) e use “<b>Adicionar à Tela de Início</b>”.
         </div>
 
         <div style="height:10px"></div>
@@ -502,6 +859,7 @@
           ✅ Antes de dizer “perdi o link”, confira esta página 😄
         </div>
       </div>
+
     </section>
 
     <footer>
@@ -579,6 +937,113 @@
   <script>
     const API = "https://script.google.com/macros/s/AKfycbyGQj5u2WPEwtQaBAH0lnFkPMxybqO1krxTESpyqHhY1H-Bt3jUXxL2YbKOJsPIbR-fwg/exec";
 
+    const AVISOS_VERSION = "2026-03-03-01";
+    const avisosDot = document.getElementById("avisosDot");
+
+    function refreshAvisosDot(){
+      const seen = localStorage.getItem("ALFA_AVISOS_SEEN") || "";
+      const isNew = (seen !== AVISOS_VERSION);
+      if(avisosDot) avisosDot.classList.toggle("hide", !isNew);
+    }
+    function markAvisosSeen(){
+      localStorage.setItem("ALFA_AVISOS_SEEN", AVISOS_VERSION);
+      refreshAvisosDot();
+    }
+
+    const themeToggle = document.getElementById("themeToggle");
+    function applyTheme(t){
+      const theme = (t === "dark") ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("ALFA_THEME", theme);
+
+      const icon = themeToggle?.querySelector(".themeIcon");
+      const label = themeToggle?.querySelector(".themeLabel");
+      if(icon) icon.textContent = (theme === "dark") ? "🌙" : "☀️";
+      if(label) label.textContent = (theme === "dark") ? "Escuro" : "Claro";
+    }
+    function initTheme(){
+      const saved = localStorage.getItem("ALFA_THEME");
+      applyTheme(saved || "light");
+    }
+    if (themeToggle){
+      themeToggle.addEventListener("click", ()=>{
+        const cur = document.documentElement.getAttribute("data-theme") || "light";
+        applyTheme(cur === "dark" ? "light" : "dark");
+      });
+    }
+    initTheme();
+
+    let deferredPrompt = null;
+    const btnInstall = document.getElementById("btnInstall");
+    const installHelp = document.getElementById("installHelp");
+
+    function isStandalone(){
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+    function showInstallButton(show){
+      if(!btnInstall) return;
+      btnInstall.style.display = show ? "" : "none";
+    }
+    function showInstallHelp(show){
+      if(!installHelp) return;
+      installHelp.style.display = show ? "" : "none";
+    }
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const isDestaque = document.querySelector('.tab.active')?.dataset?.tab === "destaque";
+      if(isDestaque && !isStandalone()){
+        showInstallButton(true);
+        showInstallHelp(false);
+      }
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
+      showInstallButton(false);
+      showInstallHelp(false);
+    });
+
+    if(btnInstall){
+      btnInstall.addEventListener("click", async () => {
+        try{
+          if(!deferredPrompt){
+            showInstallHelp(true);
+            return;
+          }
+          await deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          showInstallButton(false);
+        }catch(err){
+          console.error(err);
+          showInstallHelp(true);
+        }
+      });
+    }
+
+    function updateInstallUIByTab(tabName){
+      if(isStandalone()){
+        showInstallButton(false);
+        showInstallHelp(false);
+        return;
+      }
+      if(tabName !== "destaque"){
+        showInstallButton(false);
+        showInstallHelp(false);
+        return;
+      }
+      if(deferredPrompt){
+        showInstallButton(true);
+        showInstallHelp(false);
+        return;
+      }
+      showInstallButton(false);
+      showInstallHelp(true);
+    }
+
     const tabs = Array.from(document.querySelectorAll('.tab'));
     const panels = Array.from(document.querySelectorAll('.panel'));
     const headers = Array.from(document.querySelectorAll('.hd'));
@@ -646,6 +1111,9 @@
       applyFilter();
 
       if (tabName === "destaque") loadDestaque();
+      if (tabName === "avisos") markAvisosSeen();
+
+      updateInstallUIByTab(tabName);
     }
 
     function applyFilter(){
@@ -681,6 +1149,13 @@
       return v === turma;
     }
 
+    function getSectionIcon(section){
+      if(section === "atividades") return "📝";
+      if(section === "pdfs") return "📄";
+      if(section === "proximas") return "📘";
+      return "📌";
+    }
+
     function renderList(section, items){
       const host = listEls[section];
       host.innerHTML = "";
@@ -704,6 +1179,7 @@
         const tags  = escapeHtml(it.tags || "");
         const btnText = escapeHtml(it.btn || (link ? "Abrir ↗" : "Em breve"));
         const style   = (it.style || "primary").trim();
+        const icon    = getSectionIcon(section);
 
         const isDisabled = !link || link === "#";
         const btnHtml = isDisabled
@@ -711,12 +1187,21 @@
           : `<a class="btn ${escapeHtml(style)}" target="_blank" rel="noopener" href="${escapeHtml(link)}">${btnText}</a>`;
 
         host.insertAdjacentHTML("beforeend", `
-          <div class="item" data-tags="${tags} ${title} ${meta}">
-            <div class="left">
-              <div class="name">${title}</div>
-              <div class="meta">${meta}</div>
+          <div class="item type-${section}" data-tags="${tags} ${title} ${meta}">
+            <div class="itemAccent" aria-hidden="true"></div>
+
+            <div class="itemMain">
+              <div class="itemIcon" aria-hidden="true">${icon}</div>
+
+              <div class="left">
+                <div class="name">${title}</div>
+                <div class="meta">${meta}</div>
+              </div>
             </div>
-            ${btnHtml}
+
+            <div class="itemActions">
+              ${btnHtml}
+            </div>
           </div>
         `);
       });
@@ -749,7 +1234,6 @@
       }
     }
 
-    // -------- Destaque --------
     const destaqueView = document.getElementById("destaqueView");
     const destaqueStatus = document.getElementById("destaqueStatus");
     const btnEditar = document.getElementById("btnEditarDestaque");
@@ -805,6 +1289,11 @@
     btnFecharModal.addEventListener("click", closeModal);
     backdrop.addEventListener("click", (e)=>{ if(e.target === backdrop) closeModal(); });
 
+    async function readJsonSafe(resp){
+      const txt = await resp.text();
+      try { return JSON.parse(txt); } catch(e){ return { ok:false, error:"Resposta inválida do servidor.", raw: txt }; }
+    }
+
     btnSalvar.addEventListener("click", async ()=>{
       try{
         saveStatus.textContent = "Salvando…";
@@ -817,7 +1306,9 @@
         form.set("password", password);
         form.set("html", html);
 
-        await fetch(API, { method:"POST", body: form, mode:"no-cors" });
+        const resp = await fetch(API, { method:"POST", body: form });
+        const data = await readJsonSafe(resp);
+        if(!data.ok) throw new Error(data.error || "Falha ao salvar.");
 
         saveStatus.textContent = "✅ Salvo! Recarregando…";
         cache.destaqueHtml = "";
@@ -825,12 +1316,11 @@
         saveStatus.textContent = "✅ Salvo com sucesso!";
         setTimeout(closeModal, 600);
       }catch(err){
-        saveStatus.textContent = "❌ Erro ao salvar. Tente novamente.";
+        saveStatus.textContent = "❌ Erro ao salvar. " + (err?.message || "Tente novamente.");
         console.error(err);
       }
     });
 
-    // -------- Gerenciar listas --------
     const listBackdrop = document.getElementById("listBackdrop");
     const btnFecharList = document.getElementById("btnFecharList");
     const btnSalvarList = document.getElementById("btnSalvarList");
@@ -938,16 +1428,19 @@
         form.set("action","saveList");
         form.set("password", password);
         form.set("section", currentSection);
+        form.set("turma", getTurma());
         form.set("items", JSON.stringify(items));
 
-        await fetch(API, { method:"POST", body: form, mode:"no-cors" });
+        const resp = await fetch(API, { method:"POST", body: form });
+        const data = await readJsonSafe(resp);
+        if(!data.ok) throw new Error(data.error || "Falha ao salvar lista.");
 
         listStatus.textContent = "✅ Salvo! Recarregando…";
         await loadAll();
         listStatus.textContent = "✅ Alterações aplicadas!";
         setTimeout(closeListModal, 600);
       }catch(err){
-        listStatus.textContent = "❌ Erro ao salvar. Tente novamente.";
+        listStatus.textContent = "❌ Erro ao salvar. " + (err?.message || "Tente novamente.");
         console.error(err);
       }
     });
@@ -965,6 +1458,12 @@
       renderList("pdfs", []);
       renderList("proximas", []);
     });
+
+    refreshAvisosDot();
+
+    if ("serviceWorker" in navigator){
+      navigator.serviceWorker.register("./sw.js").catch(console.error);
+    }
   </script>
 </body>
 </html>
