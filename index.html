@@ -1063,23 +1063,28 @@
       showInstallHelp(false);
     });
 
-    if(btnInstall){
-      btnInstall.addEventListener("click", async () => {
-        try{
-          if(!deferredPrompt){
-            showInstallHelp(true);
-            return;
-          }
-          await deferredPrompt.prompt();
-          await deferredPrompt.userChoice;
-          deferredPrompt = null;
-          showInstallButton(false);
-        }catch(err){
-          console.error(err);
-          showInstallHelp(true);
-        }
-      });
+if(btnInstall){
+  btnInstall.addEventListener("click", async () => {
+    try{
+      if(!deferredPrompt) return;
+
+      await deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+
+      deferredPrompt = null;
+      showInstallButton(false);
+      showInstallHelp(false);
+
+      if(choice?.outcome !== "accepted"){
+        updateInstallUIByTab(document.querySelector('.tab.active')?.dataset?.tab || "");
+      }
+    }catch(err){
+      console.error(err);
+      showInstallButton(false);
+      showInstallHelp(false);
     }
+  });
+}
 
 function updateInstallUIByTab(tabName){
   if(isStandalone()){
@@ -1094,7 +1099,13 @@ function updateInstallUIByTab(tabName){
     return;
   }
 
-  showInstallButton(true);
+  if(deferredPrompt){
+    showInstallButton(true);
+    showInstallHelp(false);
+    return;
+  }
+
+  showInstallButton(false);
   showInstallHelp(false);
 }
 
