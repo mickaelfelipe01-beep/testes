@@ -708,6 +708,59 @@
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
     }
+.turma-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 14px;
+}
+
+.turma-icon{
+  font-size:16px;
+  line-height:1;
+  flex:0 0 auto;
+}
+
+.turma-box{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:2px;
+  min-width:0;
+}
+
+.turma-label{
+  font-size:12px;
+  color:var(--muted2);
+  line-height:1;
+}
+
+.turma-pill select{
+  border:0;
+  outline:0;
+  background:transparent;
+  font-weight:900;
+  color:var(--text);
+  cursor:pointer;
+  font-size:13px;
+  line-height:1.2;
+  padding:0;
+  max-width:220px;
+  width:220px;
+}
+
+@media (max-width: 600px){
+  .turma-pill{
+    width:100%;
+    border-radius:16px;
+  }
+
+  .turma-pill select{
+    max-width:100%;
+    width:100%;
+    font-size:12.5px;
+  }
+}
   </style>
 </head>
 
@@ -725,13 +778,17 @@
       </div>
 
       <div class="actions">
-        <div class="pill" title="Selecionar Turma">
-          👥 Turma:
-          <select id="turmaSelect" aria-label="Selecionar turma">
-            <option value="A">A</option>
-            <option value="B">B</option>
-          </select>
-        </div>
+      <div class="pill turma-pill" title="Selecionar Turma">
+  <span class="turma-icon">👥</span>
+
+  <div class="turma-box">
+    <span class="turma-label">Turma:</span>
+    <select id="turmaSelect" aria-label="Selecionar turma">
+      <option value="A">Informática Básica e Avançada</option>
+      <option value="B">Informática Básica</option>
+    </select>
+  </div>
+</div>
 
         <div class="pill" title="Tema claro/escuro">
           <button class="themeBtn" id="themeToggle" type="button" aria-label="Alternar tema">
@@ -1090,9 +1147,13 @@
       setUrlParam("turma", tt);
       turmaSelect.value = tt;
 
-      tagTurmaAtv.textContent  = "Turma " + tt;
-      tagTurmaPdf.textContent  = "Turma " + tt;
-      tagTurmaProx.textContent = "Turma " + tt;
+const turmaNome = tt === "B"
+  ? "Informática Básica"
+  : "Informática Básica e Avançada";
+
+tagTurmaAtv.textContent  = turmaNome;
+tagTurmaPdf.textContent  = turmaNome;
+tagTurmaProx.textContent = turmaNome;
 
       loadAll().catch(console.error);
     }
@@ -1164,11 +1225,15 @@
       const filtered = (items || []).filter(it => it && it.enabled !== false && itemMatchesTurma(it, turma));
 
       if(!filtered.length){
-        host.innerHTML = `
-          <div class="note" style="margin-top:0">
-            ⚠️ Nenhum item cadastrado para a <b>Turma ${escapeHtml(turma)}</b>.
-            Clique em <b>⚙️ Gerenciar</b> para adicionar.
-          </div>`;
+const turmaNome = turma === "B"
+  ? "Informática Básica"
+  : "Informática Básica e Avançada";
+
+host.innerHTML = `
+  <div class="note" style="margin-top:0">
+    ⚠️ Nenhum item cadastrado para o curso <b>${escapeHtml(turmaNome)}</b>.
+    Clique em <b>⚙️ Gerenciar</b> para adicionar.
+  </div>`;
         return;
       }
 
@@ -1376,11 +1441,11 @@
           </div>
         </td>
         <td>
-          <select data-k="turma">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="GERAL">GERAL</option>
-          </select>
+<select data-k="turma">
+  <option value="A">Informática Básica e Avançada</option>
+  <option value="B">Informática Básica</option>
+  <option value="GERAL">GERAL</option>
+</select>
         </td>
         <td><button class="btn danger" type="button" data-remove>Remover</button></td>
       `;
