@@ -728,8 +728,8 @@
         <div class="pill" title="Selecionar Turma">
           👥 Turma:
           <select id="turmaSelect" aria-label="Selecionar turma">
-            <option value="Informática Básica e Avançada">Informática Básica e Avançada</option>
-            <option value="Informática Básica">Informática Básica</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
           </select>
         </div>
 
@@ -1080,12 +1080,12 @@
     function getTurma(){
       const fromUrl = getUrlParam("turma");
       const fromLS = localStorage.getItem("ALFA_TURMA") || "";
-      const t = (fromUrl || fromLS || "Informática Básica e Avançada").toUpperCase();
-      return (t === "Informática Básica") ? "Informática Básica" : "Informática Básica e Avançada";
+      const t = (fromUrl || fromLS || "A").toUpperCase();
+      return (t === "B") ? "B" : "A";
     }
 
     function setTurma(t){
-      const tt = (t || "A").toUpperCase() === "Informática Básica" ? "Informática Básica" : "Informática Básica e Avançada";
+      const tt = (t || "A").toUpperCase() === "B" ? "B" : "A";
       localStorage.setItem("ALFA_TURMA", tt);
       setUrlParam("turma", tt);
       turmaSelect.value = tt;
@@ -1355,7 +1355,7 @@
 
     function addRowToEditor(it){
       const row = document.createElement("tr");
-      const turma = (it.turma || getTurma() || "Informática Básica e Avançada").toUpperCase();
+      const turma = (it.turma || getTurma() || "A").toUpperCase();
       row.innerHTML = `
         <td><input data-k="title" placeholder="Ex: Atividade — Aula 03" value="${escapeHtml(it.title||"")}"></td>
         <td><input data-k="meta" placeholder="Ex: Prazo: sexta-feira" value="${escapeHtml(it.meta||"")}"></td>
@@ -1377,15 +1377,15 @@
         </td>
         <td>
           <select data-k="turma">
-            <option value="Informática Básica e Avançada">Informática Básica e Avançada</option>
-            <option value="Informática Básica">Informática Básica</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
             <option value="GERAL">GERAL</option>
           </select>
         </td>
         <td><button class="btn danger" type="button" data-remove>Remover</button></td>
       `;
       row.querySelector('[data-k="style"]').value = (it.style || "primary");
-      row.querySelector('[data-k="turma"]').value = (turma === "Informática Básica" ? "Informática Básica" : turma === "GERAL" ? "GERAL" : "Informática Básica e Avançada");
+      row.querySelector('[data-k="turma"]').value = (turma === "B" ? "B" : turma === "GERAL" ? "GERAL" : "A");
 
       row.querySelector("[data-remove]").addEventListener("click", ()=> row.remove());
       listTbody.appendChild(row);
