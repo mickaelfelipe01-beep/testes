@@ -973,9 +973,7 @@
     }
     initTheme();
 
-    let deferredPrompt = null;
-let installReady = false;
-
+let deferredPrompt = null;
 const btnInstall = document.getElementById("btnInstall");
 const installHelp = document.getElementById("installHelp");
 
@@ -984,85 +982,43 @@ function isStandalone(){
 }
 
 function isIOS(){
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-function isAndroid(){
-  return /android/i.test(navigator.userAgent);
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 }
 
 function isSafari(){
-  const ua = navigator.userAgent;
+  const ua = window.navigator.userAgent;
   return /Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|Chrome/i.test(ua);
 }
 
-function showInstallButton(show, text = "⬇️ Instalar App", disabled = false){
-  if(!btnInstall) return;
-  btnInstall.style.display = show ? "" : "none";
-  btnInstall.innerHTML = text;
-  btnInstall.disabled = !!disabled;
-  btnInstall.style.opacity = disabled ? ".65" : "1";
-  btnInstall.style.cursor = disabled ? "not-allowed" : "pointer";
+function isAndroid(){
+  return /android/i.test(window.navigator.userAgent);
 }
 
-function showInstallHelp(show, html = ""){
+function showInstallButton(show, text){
+  if(!btnInstall) return;
+  btnInstall.style.display = show ? "" : "none";
+  if(text) btnInstall.innerHTML = text;
+}
+
+function showInstallHelp(show, html){
   if(!installHelp) return;
   installHelp.style.display = show ? "" : "none";
   if(html) installHelp.innerHTML = html;
 }
 
-function updateInstallUIByTab(tabName){
-  if(isStandalone()){
-    showInstallButton(false);
-    showInstallHelp(false);
-    return;
-  }
-
-  if(tabName !== "destaque"){
-    showInstallButton(false);
-    showInstallHelp(false);
-    return;
-  }
-
-  // iPhone / Safari: não existe prompt nativo igual ao Android
-  if(isIOS()){
-    showInstallButton(true, "📲 Como instalar");
-    showInstallHelp(false);
-    return;
-  }
-
-  // Android: só libera instalar direto quando o evento estiver pronto
-  if(isAndroid()){
-    if(installReady && deferredPrompt){
-      showInstallButton(true, "⬇️ Instalar App", false);
-    } else {
-      showInstallButton(true, "⏳ Preparando instalação...", true);
-    }
-    showInstallHelp(false);
-    return;
-  }
-
-  // Desktop / outros
-  if(installReady && deferredPrompt){
-    showInstallButton(true, "⬇️ Instalar App", false);
-  } else {
-    showInstallButton(true, "📲 Instalar App", false);
-  }
-  showInstallHelp(false);
-}
-
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installReady = true;
 
-  const activeTab = document.querySelector(".tab.active")?.dataset?.tab || "";
-  updateInstallUIByTab(activeTab);
+  const isDestaque = document.querySelector('.tab.active')?.dataset?.tab === "destaque";
+  if(isDestaque && !isStandalone()){
+    showInstallButton(true, "⬇️ Instalar App");
+    showInstallHelp(false);
+  }
 });
 
 window.addEventListener("appinstalled", () => {
   deferredPrompt = null;
-  installReady = false;
   showInstallButton(false);
   showInstallHelp(false);
 });
@@ -1076,57 +1032,51 @@ if(btnInstall){
         return;
       }
 
+      // Android/Chrome com prompt nativo
+      if(deferredPrompt){
+        await deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        showInstallHelp(false);
+        return;
+      }
+
+      // iPhone/Safari
       if(isIOS()){
         showInstallHelp(true, `
-          📌 Para instalar no <b>iPhone</b>: abra no <b>Safari</b>, toque em
-          <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.
+          📌 <b>No iPhone:</b><br>
+          1. Toque no botão <b>Compartilhar</b> do Safari.<br>
+          2. Depois toque em <b>Adicionar à Tela de Início</b>.<br>
+          3. Confirme em <b>Adicionar</b>.
         `);
         return;
       }
 
-      if(deferredPrompt){
-        showInstallHelp(false);
-        await deferredPrompt.prompt();
-
-        const choice = await deferredPrompt.userChoice;
-        console.log("Resultado da instalação:", choice?.outcome);
-
-        deferredPrompt = null;
-        installReady = false;
-        updateInstallUIByTab("destaque");
-        return;
-      }
-
-      // Se o evento ainda não chegou, não mostrar manual direto no Android
+      // Android sem prompt disponível ainda
       if(isAndroid()){
         showInstallHelp(true, `
-          ⏳ O instalador ainda está sendo preparado pelo navegador.<br>
-          Aguarde <b>2 a 5 segundos</b> nesta página e toque novamente no botão.
+          📌 <b>No Android:</b><br>
+          1. Abra este link no <b>Chrome</b>.<br>
+          2. Toque no menu <b>⋮</b> do navegador.<br>
+          3. Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.
         `);
         return;
       }
 
+      // Outros casos
       showInstallHelp(true, `
-        📌 Use o menu do navegador e escolha <b>Instalar app</b> ou
-        <b>Adicionar à tela inicial</b>.
+        📌 Para instalar, use o menu do navegador e escolha
+        <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.
       `);
     }catch(err){
       console.error(err);
       showInstallHelp(true, `
-        ⚠️ Não foi possível abrir a instalação agora.<br>
-        Tente novamente em alguns segundos.
+        ⚠️ Não foi possível abrir a instalação automática.<br>
+        Use o menu do navegador e escolha <b>Adicionar à tela inicial</b>.
       `);
     }
   });
 }
-
-// pequena checagem após carregar a página
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const activeTab = document.querySelector(".tab.active")?.dataset?.tab || "destaque";
-    updateInstallUIByTab(activeTab);
-  }, 1200);
-});
 
 function updateInstallUIByTab(tabName){
   if(isStandalone()){
