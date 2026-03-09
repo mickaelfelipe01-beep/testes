@@ -728,7 +728,7 @@
         <div class="pill" title="Selecionar Turma">
           👥 Turma:
           <select id="turmaSelect" aria-label="Selecionar turma">
-            <option value="A">Informática Básica e Avançada</option>
+            <option value="A">Informática Avançada</option>
             <option value="B">Informática Básica</option>
           </select>
         </div>
@@ -973,86 +973,76 @@
     }
     initTheme();
 
-let deferredPrompt = null;
-const btnInstall = document.getElementById("btnInstall");
-const installHelp = document.getElementById("installHelp");
+    let deferredPrompt = null;
+    const btnInstall = document.getElementById("btnInstall");
+    const installHelp = document.getElementById("installHelp");
 
-function isStandalone(){
-  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-}
+    function isStandalone(){
+      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    }
+    function showInstallButton(show){
+      if(!btnInstall) return;
+      btnInstall.style.display = show ? "" : "none";
+    }
+    function showInstallHelp(show){
+      if(!installHelp) return;
+      installHelp.style.display = show ? "" : "none";
+    }
 
-function showInstallButton(show){
-  if(!btnInstall) return;
-  btnInstall.style.display = show ? "" : "none";
-}
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
 
-function showInstallHelp(show){
-  if(!installHelp) return;
-  installHelp.style.display = show ? "" : "none";
-}
+      const isDestaque = document.querySelector('.tab.active')?.dataset?.tab === "destaque";
+      if(isDestaque && !isStandalone()){
+        showInstallButton(true);
+        showInstallHelp(false);
+      }
+    });
 
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  const activeTab = document.querySelector(".tab.active")?.dataset?.tab || "";
-  if(activeTab === "destaque" && !isStandalone()){
-    showInstallButton(true);
-    showInstallHelp(false);
-  }
-});
-
-window.addEventListener("appinstalled", () => {
-  deferredPrompt = null;
-  showInstallButton(false);
-  showInstallHelp(false);
-});
-
-if(btnInstall){
-  btnInstall.addEventListener("click", async () => {
-    try{
-      if(!deferredPrompt) return;
-
-      await deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
-
+    window.addEventListener("appinstalled", () => {
       deferredPrompt = null;
       showInstallButton(false);
       showInstallHelp(false);
+    });
 
-      if(choice?.outcome !== "accepted"){
-        updateInstallUIByTab(document.querySelector(".tab.active")?.dataset?.tab || "");
-      }
-    }catch(err){
-      console.error(err);
-      showInstallButton(false);
-      showInstallHelp(false);
+    if(btnInstall){
+      btnInstall.addEventListener("click", async () => {
+        try{
+          if(!deferredPrompt){
+            showInstallHelp(true);
+            return;
+          }
+          await deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          showInstallButton(false);
+        }catch(err){
+          console.error(err);
+          showInstallHelp(true);
+        }
+      });
     }
-  });
-}
 
-function updateInstallUIByTab(tabName){
-  if(isStandalone()){
-    showInstallButton(false);
-    showInstallHelp(false);
-    return;
-  }
-
-  if(tabName !== "destaque"){
-    showInstallButton(false);
-    showInstallHelp(false);
-    return;
-  }
-
-  if(deferredPrompt){
-    showInstallButton(true);
-    showInstallHelp(false);
-    return;
-  }
-
-  showInstallButton(false);
-  showInstallHelp(false);
-}
+    function updateInstallUIByTab(tabName){
+      if(isStandalone()){
+        showInstallButton(false);
+        showInstallHelp(false);
+        return;
+      }
+      if(tabName !== "destaque"){
+        showInstallButton(false);
+        showInstallHelp(false);
+        return;
+      }
+      if(deferredPrompt){
+        showInstallButton(true);
+        showInstallHelp(false);
+        return;
+      }
+      showInstallButton(false);
+      showInstallHelp(true);
+    }
 
     const tabs = Array.from(document.querySelectorAll('.tab'));
     const panels = Array.from(document.querySelectorAll('.panel'));
